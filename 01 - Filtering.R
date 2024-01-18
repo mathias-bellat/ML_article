@@ -4,7 +4,7 @@
 #                                                                  #                                                  
 # Author: Mathias Bellat                                           #
 # Affiliation : Tübingen University                                #
-# Creation date : 26/10/2023                                       #
+# Creation date : 18/01/2024                                       #
 # E-mail: mathias.bellat@uni-tubingen.de                           #
 ####################################################################
 
@@ -13,7 +13,7 @@
 
 # Folder check
 getwd()
-setwd(dir = "C:/Users/Mathias/OneDrive/Ecole/Articles/Article_ML/R_text_analysis") #Set the folder path
+setwd(dir = "") #Set the folder path
 
 # Clean up workspace
 rm(list = ls(all.names = TRUE))
@@ -25,10 +25,11 @@ pacman::p_load(dplyr, tm) # Specify required packages and download it if needed
 
 # 01 Convert PDF ---------------------------------------------------------------
 # 01.1 Select the path and the files
-path  <- "C:/Users/Mathias/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/Pdf" #Select the location of PDFs files
-files <- list.files(path = "./Data/Pdf/", pattern = "pdf")  #Make a vector of PDFs in the folder 
+path  <- "./Data/pdf_full" #Select the location of PDFs files
+files <- list.files(path = "./Data/pdf_full/", pattern = "pdf")  #Make a vector of PDFs in the folder 
 
 xpdf <- "C:/Program Files/xpdf-tools-win-4.04/bin64/pdftotext.exe"  #Path for XPDF tool accessible at (https://www.xpdfreader.com/download.html)
+
 
 # 01.2 Transform and export in the same folder as the pdf
 for (i in 1:length(files)){
@@ -40,8 +41,8 @@ rm(list=ls())
 
 # 02 Prepare the txt files ---------------------------------------------------------------
 # 02.1 Import the data under Corpus file
-corpus <- VCorpus(DirSource(directory = "./Data/Pdf/Txt_final/",
-                            pattern = "*.txt"))  #  VCorpus from the package tm
+corpus <- VCorpus(DirSource(directory = "./Data/txt_full/",
+                            pattern = ".txt"))  #  VCorpus from the package tm
 
 # 02.2 Clean the elements
 df <- corpus
@@ -62,7 +63,7 @@ data <- data.frame(id=sapply(df, meta, "id"),
 
 data$text <- gsub("[\r\n]", "", data$text) #Remove page number
 data$text[1]
-write.table(data, "./Export/export_data.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(data, "./Export/pre_process/export_data.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
 # 02.4 Remove reference part
 
@@ -90,14 +91,16 @@ remove_references <- function(x){
  return(z)
 }
 clean <-  remove_references(data) 
+clean$Id<- gsub(".pdf", "", clean$Id) #Remove the ".pdf" old information to remove any issues with furter analysis
+colnames(clean) <- c("Id", "text", "check", "number", "intro",  "abs", "doi")
 
 # 02.5 Export the elements
-save(list = c("clean", "corpus"), file = "./Export/Pre-process.RData")
+save(list = c("clean", "corpus"), file = "./Export/pre_process/Pre-process.RData")
 
 rm(list=ls())
 
 # 03 Combine the different element  ---------------------------------------------------------------
-load("./Export/Pre-process.RData")
+load("./Export/pre_process/Pre-process.RData")
 
 intro <- subset(clean, clean$number == 3)
 abs <- subset(clean, clean$number == 2)
@@ -158,7 +161,7 @@ colnames(doi) <- names
 
 
 #Not_treated data have to analyzed again to see if "abstract" or "introduction" word are not embedded with others which can make the greplx function inefficient
-#Once check and modified if necessary (remove the reference part manually) you would have to upload again and the pre-process step run again.
+#Once check and modified if necessary (remove the reference part manually) you would have to upload again later in the steps.
 not_treated <- rbind(no_resume, no_resume2 , no_resume3)
 not_treated <- not_treated [,c(1:2,4)]
 
@@ -170,21 +173,30 @@ colnames(not_treated) <- c ("Id", "Full_text", "Number")
 final_data <- rbind(intro, abs, doi) #Combine all the data in one data frame
 
 
-write.table(not_treated$Id, "./Export/no_treated.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(not_treated$Id, "./Export/pre_process/no_treated.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
-save(list = c("clean", "corpus", "final_data", "not_treated"), file = "./Export/First_step.RData")
+# 03.5 Add the articles with embedded or no references part
+#Repeat the steps 2 until 2.4 step. for the "not_treated" articles once the references have been removed manually
+new_ref <- subset(clean, clean$Id %in% dataBis$id)
+new_ref <- data.frame(Id = new_ref$Id,
+                   Full_text = new_ref$text,
+                   Number = 0,
+                   Removed_ref = dataBis$text)
+final_data <- rbind(final_data, new_ref)
+not_treated <- not_treated[!(not_treated$Id %in% new_ref$Id),]
+
+save(list = c("clean", "corpus", "final_data", "not_treated"), file = "./Export/pre_process/Filtered_references.RData")
 
 rm(list=ls())
 
 
 # 04 First filter ---------------------------------------------------------------
-
-load("./Export/First_step.RData")
+load("./Export/pre_process/Filtered_references.RData")
 
 x <- final_data
 z <- final_data$Removed_ref
 
-#Function filtering the data
+# 03.1 Function for filtering the data
 filter_func <- function(x, z){
   
   list_archeo <- c("archaeology", "archeology", "archaeological", "archeological") #List of archaeological words related
@@ -229,9 +241,11 @@ filter_func <- function(x, z){
 
   return(x)
 }
-  
+
+# 03.2 Apply the filtering to the articles without references part
 first_filtered_data <- filter_func(x, z)
 
+# 03.3 Subset the different results
 #subset the article without archeo keywords
 no_archeo <- subset(first_filtered_data, first_filtered_data$archeo_value == 0)
 
@@ -244,42 +258,39 @@ no_combined <- subset(first_filtered_data, first_filtered_data$filtered == 0)
 #subset the article with archeo AND ML keywords
 first_filtered_data <- subset(first_filtered_data, first_filtered_data$filtered == 1)
 
-write.table(no_archeo[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-write.table(no_ML[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-write.table(no_combined[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-write.table(first_filtered_data[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+# 03.4 Export the resuts
+write.table(no_archeo[1], "./Export/first_filter/first_filter_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_ML[1], "./Export/first_filter/first_filter_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_combined[1], "./Export/first_filter/first_filter_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(first_filtered_data[1], "./Export/first_filter/first_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
-save(list = c("final_data", "first_filtered_data","no_combined"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/First_filter.RData")
-
+save(list = c("final_data", "filter_func", "first_filtered_data","no_combined"), file = "./Export/first_filter/First_filter.RData")
+rm(list=c(ls()))
 
 # 05 Second filter ---------------------------------------------------------------
-rm(list=c("Documents.exportés","x","z"))
-load("./Export/Filtering/First_filter.RData")
+load("./Export/first_filter/First_filter.RData")
 
-#Import the Metadata set
-Metadata_filtered <- read.csv("./Data/Metadata_filtered.csv", sep=";")
+# 05.1 Import the metadata file
+Metadata <- read.csv("./Data/Metadata.csv", sep=";", na.strings = "Na")
 
-combined_metadata <- first_filtered_data[1]
-colnames(combined_metadata) <- c("Name")
-combined_metadata$Number <-  1
+# 05.2 Filter the metadata
+Metadata$Id <- gsub(".pdf.pdf", ".txt", Metadata$Id) #The metadata as exported in Zotero will be the original PDFs files. Therefore, tehy extensions need to be changed to be compatible with the filtered data
+Metadata$Id <- gsub(".pdf", ".txt", Metadata$Id) 
 
-x <- no_combined[1]
-colnames(x) <- c("Name")
-x$Number <-  0
-combined_metadata <- rbind(combined_metadata, x)
+Metadata_first_filter <- subset(Metadata, Metadata$Id %in% first_filtered_data$Id)  #Export the metadata from the first filter
+write.table(Metadata_first_filter, "./Export/first_filter/Metadata_first_filter.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
+Metadata <- Metadata[,c(1:6,9,11,18)] #Clean the file removing non wanted columns
+colnames(Metadata) <- c("Key", "Type", "Year", "Author", "Title", "Journal", "DOI", "Abstract", "Id")
+Metadata <- subset(Metadata, is.na(Metadata$Id) == FALSE) #Clean the metadata from the missing files
 
-#Merge the data set and remove the missing text (foreign language)
-combined_metadata <- merge(Metadata_filtered, combined_metadata , by = "Name", all = TRUE)
-combined_metadata <- na.omit(combined_metadata)
-not_treated <- subset(combined_metadata, combined_metadata$Number == 0)
-second_filtered_data <- subset(combined_metadata, combined_metadata$Number == 1)
+# 05.3 Merge metadata and first filtered ones
+second_filtered_data <- merge(first_filtered_data, Metadata, by ="Id")
 
-
-# Filter Abstract
+# 05.4 Filter the abstract
 x <- second_filtered_data
-x$Abstract.Note <- na.omit(x$Abstract.Note)
-z <- x$Abstract.Note
+x$Abstract <- na.omit(x$Abstract)
+z <- x$Abstract
 
 #Function filtering the data for the abstract
 abstract_filtered_data <- filter_func(x, z)
@@ -296,42 +307,56 @@ no_combined_abstract <- subset(abstract_filtered_data, abstract_filtered_data$fi
 #subset the article with archeo AND ML keywords
 abstract_filtered_data <- subset(abstract_filtered_data, abstract_filtered_data$filtered == 1)
 
+# 05.5 Export the results
+write.table(no_archeo_abstract[1], "./Export/second_filter/Abstract_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_ML_abstract[1], "./Export/second_filter/Abstract_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_combined_abstract[1], "./Export/second_filter/Abstract_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(abstract_filtered_data[1], "./Export/second_filter/Abstract_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
-save(list = c("no_archeo_abstract", "no_combined_abstract", "no_ML_abstract", "abstract_filtered_data"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/Abstract_filtered.RData")
+save(list = c("no_archeo_abstract", "filter_func",  "no_combined_abstract", "no_ML_abstract", "abstract_filtered_data"), file = "./Export/second_filter/Abstract_filtered.RData")
 
 rm(list=c("no_archeo_abstract", "no_combined_abstract", "no_ML_abstract"))
 
-# Filtered tittle
+# 05.6 Filter the title
 x <- second_filtered_data
-x$Abstract.Note <- na.omit(x$Title)
+x$Title <- na.omit(x$Title)
 z <- x$Title
 
 #Function filtering the data
-
-tittle_filtered_data <- filter_func(x, z)
+title_filtered_data <- filter_func(x, z)
 
 #subset the article without archeo keywords
-no_archeo_tittle <- subset(tittle_filtered_data, tittle_filtered_data$archeo_value == 0)
+no_archeo_title <- subset(title_filtered_data, title_filtered_data$archeo_value == 0)
 
 #subset the article without ML keywords
-no_ML_tittle <- subset(tittle_filtered_data, tittle_filtered_data$ML_value == 0)
+no_ML_title <- subset(title_filtered_data, title_filtered_data$ML_value == 0)
 
 #subset the article without either archeo or ML keywords
-no_combined_tittle <- subset(tittle_filtered_data, tittle_filtered_data$filtered == 0)
+no_combined_title <- subset(title_filtered_data, title_filtered_data$filtered == 0)
 
 #subset the article with archeo AND ML keywords
-tittle_filtered_data <- subset(tittle_filtered_data, tittle_filtered_data$filtered == 1)
+title_filtered_data <- subset(title_filtered_data, title_filtered_data$filtered == 1)
 
-save(list = c("no_archeo_tittle", "no_ML_tittle", "no_combined_tittle", "tittle_filtered_data"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/Tittle_filtered.RData")
+# 05.7 Export the results
+write.table(no_archeo_title[1], "./Export/second_filter/Title_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_ML_title[1], "./Export/second_filter/Title_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(no_combined_title[1], "./Export/second_filter/Title_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(title_filtered_data[1], "./Export/second_filter/Title_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+save(list = c("no_archeo_title", "no_ML_title", "no_combined_title", "title_filtered_data"), file = "./Export/second_filter/Title_filtered.RData")
 
-rm(list=c("no_archeo_tittle", "no_ML_tittle", "no_combined_tittle","x","z"))
+rm(list=c("no_archeo_title", "no_ML_title", "no_combined_title","x","z"))
 
 
-second_filtered_data <- rbind(tittle_filtered_data, abstract_filtered_data)
+# 05.8 Combine the title and abstract filters
+second_filtered_data <- rbind(title_filtered_data, abstract_filtered_data)
 second_filtered_data <- second_filtered_data[c(1:5)]
 second_filtered_data <- distinct(second_filtered_data) #Remove duplicates
 
-write.table(second_filtered_data, "./Export/second_filtered.csv", sep = ";", row.names = FALSE , col.names = FALSE)
+write.table(second_filtered_data[1], "./Export/second_filter/second_filtered.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+
+# 05.9 Export the metadata with the second filter
+Metadata_second_filter <- subset(Metadata, Metadata$Id %in% second_filtered_data$Id)  #Export the metadata from the first filter
+write.table(Metadata_second_filter, "./Export/second_filter/Metadata_second_filter.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
 
 
