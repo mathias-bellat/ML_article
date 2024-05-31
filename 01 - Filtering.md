@@ -81,7 +81,7 @@ You can download the *xpdf* app at the following
 
     # 02 Prepare the txt files ---------------------------------------------------------------
     # 02.1 Import the data under Corpus file
-    corpus <- VCorpus(DirSource(directory = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/txt_full/",
+    corpus <- VCorpus(DirSource(directory = "./Data/txt_full/",
                                 pattern = ".txt"))  #Corpus from the package tm
 
     # 02.2 Clean the elements
@@ -114,7 +114,7 @@ You can download the *xpdf* app at the following
     data$text <- gsub("[\r\n]", "", data$text)
 
     # Write the table
-    write.table(data, "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/export_data.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+    write.table(data, "./Export/pre_process/export_data.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
     # 02.4 Remove reference part
 
@@ -149,13 +149,13 @@ You can download the *xpdf* app at the following
     colnames(clean) <- c("Id", "text", "check", "number", "intro",  "abs", "doi")
 
     # 02.5 Export the elements
-    save(list = c("clean", "corpus"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/Pre-process.RData")
+    save(list = c("clean", "corpus"), file = "./Export/pre_process/Pre-process.RData")
     rm(list=ls())
 
 # 03 Combine the different elements
 
     # 03 Combine the different elements  ---------------------------------------------------------------
-    load("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/Pre-process.RData")
+    load("./Export/pre_process/Pre-process.RData")
 
     intro <- subset(clean, clean$number == 3)
     abs <- subset(clean, clean$number == 2)
@@ -232,7 +232,7 @@ to the `grepx` function.
     final_data <- rbind(intro, abs, doi) #Combine all the data in one data frame
 
 
-    write.table(not_treated$Id, "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/not_treated.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+    write.table(not_treated$Id, "./Export/pre_process/not_treated.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
 You will need to check files which are export as *not\_treated.txt* and
 remove manually the elements that might perturb the automatic selection.
@@ -252,7 +252,7 @@ uploaded *.txt* files. Here the name of the cleaned file is
     not_treated <- not_treated[!(not_treated$Id %in% new_ref$Id),]
 
     # Save the pre-process step
-    save(list = c("clean", "corpus", "final_data", "not_treated"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/Filtered_references.RData")
+    save(list = c("clean", "corpus", "final_data", "not_treated"), file = "./Export/pre_process/Filtered_references.RData")
     rm(list=ls())
 
 # 04 First filter
@@ -261,10 +261,10 @@ The *Metadata* were collected from the information available from the
 DOI and imports from the different web libraries.
 
     # 04 First filter ---------------------------------------------------------------
-    load("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/pre_process/Filtered_references.RData")
+    load("./Export/pre_process/Filtered_references.RData")
 
     # 04.1 Import and clean the metadata
-    Metadata <- read.csv("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/Metadata.csv", sep =",", na.strings = "NA")
+    Metadata <- read.csv("./Data/Metadata.csv", sep =",", na.strings = "NA")
     Metadata$File.Attachments[Metadata$File.Attachments == ""] <-NA
     Metadata <- Metadata %>% drop_na(File.Attachments) #Remove the ones without Pdfs
     Test <- Metadata  %>% add_column(pest_matrix = Metadata$File.Attachments %>% str_split("\\\\", simplify = T))
@@ -290,7 +290,7 @@ DOI and imports from the different web libraries.
     Metadata <- subset(Metadata, Metadata$Item.Type == "journalArticle") #Select only journal articles
     test <- subset(final_data, final_data$Id %in% Metadata$File.Attachments)#Select in the data set journal articles
 
-    write.table(Metadata, "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/Metadata_clean.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(Metadata, "./Data/Metadata_clean.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
 
     # 04.4 Function for filtering the data
@@ -356,25 +356,25 @@ DOI and imports from the different web libraries.
     first_filtered_data <- subset(first_filtered_data, first_filtered_data$filtered == 1)
 
     # 04.7 Export the resuts
-    write.table(no_archeo[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/first_filter_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_ML[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/first_filter_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_combined[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/first_filter_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(first_filtered_data[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/first_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_archeo[1], "./Export/first_filter/first_filter_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_ML[1], "./Export/first_filter/first_filter_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_combined[1], "./Export/first_filter/first_filter_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(first_filtered_data[1], "./Export/first_filter/first_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
-    save(list = c("final_data", "filter_func", "first_filtered_data","no_combined"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/First_filter.RData")
+    save(list = c("final_data", "filter_func", "first_filtered_data","no_combined"), file = "./Export/first_filter/First_filter.RData")
     rm(list=c(ls()))
 
 # 05 Second filter
 
     # 05 Second filter ---------------------------------------------------------------
-    load("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/First_filter.RData")
+    load("./Export/first_filter/First_filter.RData")
 
     # 05.1 Import the metadata file
-    Metadata <- read.csv("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/Metadata_clean.csv", sep="\t", na.strings = "NA", header = FALSE)
+    Metadata <- read.csv("./Data/Metadata_clean.csv", sep="\t", na.strings = "NA", header = FALSE)
 
     # 05.2 Filter the metadata
     Metadata_first_filter <- subset(Metadata, Metadata$V38 %in% first_filtered_data$Id)  #Export the metadata from the first filter
-    write.table(Metadata_first_filter, "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/first_filter/Metadata_first_filter.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(Metadata_first_filter, "./Export/first_filter/Metadata_first_filter.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
 
     # 05.3 Merge metadata and first filtered ones
@@ -403,12 +403,12 @@ DOI and imports from the different web libraries.
     abstract_filtered_data <- subset(abstract_filtered_data, abstract_filtered_data$filtered == 1)
 
     # 05.5 Export the results
-    write.table(no_archeo_abstract[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Abstract_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_ML_abstract[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Abstract_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_combined_abstract[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Abstract_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(abstract_filtered_data[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Abstract_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_archeo_abstract[1], "./Export/second_filter/Abstract_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_ML_abstract[1], "./Export/second_filter/Abstract_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_combined_abstract[1], "./Export/second_filter/Abstract_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(abstract_filtered_data[1], "./Export/second_filter/Abstract_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
-    save(list = c("no_archeo_abstract", "filter_func",  "no_combined_abstract", "no_ML_abstract", "abstract_filtered_data"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Abstract_filtered.RData")
+    save(list = c("no_archeo_abstract", "filter_func",  "no_combined_abstract", "no_ML_abstract", "abstract_filtered_data"), file = "./Export/second_filter/Abstract_filtered.RData")
 
     rm(list=c("no_archeo_abstract", "no_combined_abstract", "no_ML_abstract"))
 
@@ -433,11 +433,11 @@ DOI and imports from the different web libraries.
     title_filtered_data <- subset(title_filtered_data, title_filtered_data$filtered == 1)
 
     # 05.7 Export the results
-    write.table(no_archeo_title[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Title_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_ML_title[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Title_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(no_combined_title[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Title_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    write.table(title_filtered_data[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Title_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-    save(list = c("no_archeo_title", "no_ML_title", "no_combined_title", "title_filtered_data"), file = "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Title_filtered.RData")
+    write.table(no_archeo_title[1], "./Export/second_filter/Title_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_ML_title[1], "./Export/second_filter/Title_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(no_combined_title[1], "./Export/second_filter/Title_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    write.table(title_filtered_data[1], "./Export/second_filter/Title_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+    save(list = c("no_archeo_title", "no_ML_title", "no_combined_title", "title_filtered_data"), file = "./Export/second_filter/Title_filtered.RData")
 
     rm(list=c("no_archeo_title", "no_ML_title", "no_combined_title","x","z"))
 
@@ -447,12 +447,12 @@ DOI and imports from the different web libraries.
     second_filtered_data <- second_filtered_data[c(1:5)]
     second_filtered_data <- distinct(second_filtered_data) #Remove duplicates
 
-    write.table(second_filtered_data[1], "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/second_filtered.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+    write.table(second_filtered_data[1], "./Export/second_filter/second_filtered.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
     # 05.9 Import the metadata
-    Metadata <- read.csv("G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Data/Metadata_clean.csv", sep="\t", na.strings = "Na", header = FALSE)
+    Metadata <- read.csv("./Data/Metadata_clean.csv", sep="\t", na.strings = "Na", header = FALSE)
 
 
     # 05.10 Export the metadata with the second filter
     Metadata_second_filter <- merge(Metadata, second_filtered_data[1:2], by.x = "V38", by.y = "Id", all = FALSE)
-    write.table(Metadata_second_filter, "G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/Export/second_filter/Metadata_second_filter.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+    write.table(Metadata_second_filter, "./Export/second_filter/Metadata_second_filter.txt", sep = ";", row.names = FALSE , col.names = FALSE)
