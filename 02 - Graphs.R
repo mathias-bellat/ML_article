@@ -15,7 +15,7 @@
 getwd()
 
 # Set folder direction
-setwd(dir="G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/")
+setwd(dir="")
 
 # Clean up workspace
 rm(list = ls(all.names = TRUE))
