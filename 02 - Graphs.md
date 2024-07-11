@@ -341,7 +341,7 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
 plot 
 ```
 
-![](02---Graphs_files/figure-gfm/models%20year%20of%20publication-1.png)<!-- -->
+![](02 - Graphs_figures/models%20year%20of%20publication-1.png)<!-- -->
 
 ``` r
 # Export the plot  
@@ -382,7 +382,7 @@ plot <- ggplot() +
 plot 
 ```
 
-![](02---Graphs_files/figure-gfm/world-1.png)<!-- -->
+![](02 - Graphs_figures/world-1.png)<!-- -->
 
 ``` r
 # Export the plot  
@@ -508,7 +508,7 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/categories%20per%20years-1.png)<!-- -->
+![](02 - Graphs_figures/categories%20per%20years-1.png)<!-- -->
 
 ``` r
 # Export plot
@@ -696,7 +696,7 @@ plot
     ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
     ## params$discern): Some strata appear at multiple axes.
 
-![](02---Graphs_files/figure-gfm/alluvial%20diagram-1.png)<!-- -->
+![](02 - Graphs_figures/alluvial%20diagram-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
@@ -732,7 +732,7 @@ plot
     ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
     ## params$discern): Some strata appear at multiple axes.
 
-![](02---Graphs_files/figure-gfm/alluvial%20diagram%20bis-1.png)<!-- -->
+![](02 - Graphs_figures/alluvial%20diagram%20bis-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
@@ -768,4 +768,4 @@ plot
     ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
     ## params$discern): Some strata appear at multiple axes.
 
-![](02---Graphs_files/figure-gfm/alluvial%20diagram%20optional-1.png)<!-- -->
+![](02 - Graphs_figures/alluvial%20diagram%20optional-1.png)<!-- -->
