@@ -55,12 +55,45 @@ modelsList <- range_read(sheet, sheet = "Models statistics")
 modelsList <- as.data.frame(subset(modelsList, is.na(modelsList$Algorithm) == FALSE))
 head(modelsList)
 
+# 01.5 Remove non reviewed papers ##############################################
+
+# Reviewed and not reviewed papers, one papers might have several studies
+not_review <- subset(obs, obs$`Archaeology Categories` == "x")
+review <- subset(obs, obs$`Archaeology Categories` != "x")
+
+# Merge with metadata
+merge <- merge(info, not_review, by = "ID")
+
+# Select papers which have several studies to not remove them in case one of their study do fit review protocol
+df.1 <- merge[grep("-1", merge$Name.y, ignore.case = TRUE ),]
+df.2 <- merge[grep("-2", merge$Name.y, ignore.case = TRUE ),]
+df <- rbind(df.1, df.2)
+
+# Select the papers in question and unlist them from the papers to remove
+ID <- c(df$ID)
+not_review <- merge[!merge$ID %in% ID, ]
+head(not_review)
+
+# Create the reviewed metadata file
+ID <- c(not_review$ID)
+metadata <- info[!info$ID %in% ID, ]
+
+# Show how many papers were included in the review and how many not
+
+# Reviewed paper
+nrow(metadata)
+# Number of studies
+nrow(review)
+# Not reviewed paper
+nrow(not_review)
+
 # 02 Basics statistics ---------------------------------------------------------
 # 02.1 Year of publication graph ###############################################
-pub <- table(info$Year)
+pub <- table(metadata$Year)
 pub <- as.data.frame(pub)
 colnames(pub) <- c("year","Freq")
 pub$year <- as.numeric(as.character(pub$year))
+
 
 
 df1 <- join(data.frame(year = 1997:2022), pub)  #Left join df years to all years 
@@ -85,7 +118,7 @@ ggsave("./Export/Graph/Figure.02.png", plot = plot, width = 12, height = 6, unit
 ggsave("./Export/Graph/Figure.02.pdf", plot = plot, width = 12, height = 6, units = "in")
 
 # 02.2 Country list ############################################################
-countries <- table(info$`Country of affiliation`)
+countries <- table(metadata$`Country of affiliation`)
 countries <- as.data.frame(countries)
 countries$Var1 <- as.character(countries$Var1)
 
@@ -121,8 +154,8 @@ ggsave("./Export/Graph/Figure_03.pdf", plot = plot, width = 16, height = 10, uni
 
 # 02.3 Most prolific authors ####################################################
 # Prepare the authors dataset
-authors <- as.data.frame(info$Authors)
-authors <- authors %>% add_column(pest_matrix = authors$`info$Authors` %>% str_split(';', simplify = T))
+authors <- as.data.frame(metadata$Authors)
+authors <- authors %>% add_column(pest_matrix = authors$`metadata$Authors` %>% str_split(';', simplify = T))
 authors <- as.data.frame(authors$pest_matrix)
 
 # Create a function to remove all blank space
@@ -153,13 +186,12 @@ authorsFinal <- na.omit(authorsFinal)
 freq <- table(authorsFinal)
 freq_df <- as.data.frame(freq)
 
-# Show the first 6 more prolific authors
+# Show the first 6 more prolific authors, careful "Li" refers to three different authors
 head(freq_df[order(-freq_df$Freq), ])
 
 # 02.4 Number of articles for each categories ##################################
-cat <- obs[,c(3,6)]
-cat <- cat[c(1:141),]
-cat <- cat %>% add_column(pest_matrix = cat$Categories %>% str_split(';', simplify = T))
+cat <- review[,c(3,6)]
+cat <- cat %>% add_column(pest_matrix = cat$`Archaeology Categories` %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat <- cbind(cat[,c(1:2)], cat_full)
 
@@ -178,8 +210,8 @@ separate <- function(df, A, B) {
 } 
 
 # Split the column to have every values as a frequency table
-hist <- separate(cat,3,5)
-hist <- hist[,c(1,3)]
+hist <- separate(cat,3,6)
+hist <- hist[c(nrow(cat)+1:nrow(hist)),c(1,3)]
 hist$V1[hist$V1 =="No"] <- NA
 hist$V1 <- str_replace_all(hist$V1, " ", "")
 hist$V1[hist$V1 ==""] <- NA
@@ -232,7 +264,7 @@ ggsave("./Export/Graph/Figure_04.pdf", plot = plot, width = 15, height = 10, uni
 # 03.1 Models used #############################################################
 
 # Split the model column by semicolon
-models <- as.data.frame(obs[,c(1,4)])
+models <- as.data.frame(review[,c(1,4)])
 models <- models %>% add_column(pest_matrix = models$`Algorithms used` %>% str_split(';', simplify = T))
 models_full <- as.data.frame(models$pest_matrix)
 models_full <- cbind(models$Name, models_full)
@@ -241,8 +273,8 @@ colnames(models_full)[colnames(models_full) == "models$Name" ] <- "Name"
 # 03.2 Archaeological categories ###############################################
 
 # Split the categories column by semicolon
-cat <- obs[,c(1:8)]
-cat <- cat %>% add_column(pest_matrix = cat$Categories %>% str_split(';', simplify = T))
+cat <- review[,c(1:8)]
+cat <- cat %>% add_column(pest_matrix = cat$`Archaeology Categories` %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat_full <- cbind(cat[,c(1,7:8)], cat_full)
 colnames(cat_full)[colnames(cat_full) == "cat$Name" ] <- "Name"
@@ -317,6 +349,7 @@ final <- full_second[complete.cases(full_second[,6]), ]
 # 03.8 Merge all for a frequency table #########################################
 row.names(final) <- 1:nrow(final)
 colnames(final) <- c("Author","ID", "Date","Evaluation","Task", "Architecture", "Result", "Input", "Categorie")
+write.csv(final, "./Export/final_infos.csv", fileEncoding = "UTF-8")
 
 # 03.9 Remove under represented tasks ##########################################
 final <- as.data.frame(final)
@@ -376,22 +409,62 @@ rm(list = ls())
 # 03.13 Plot the alluvial diagramm #############################################
 load("./Export/AlluvialGraph.RData")
 
+# Plot from Task to Architecture with Eval in background
 plot <- ggplot(data = frequency,
-       aes(axis1 = Task, axis2 = Evaluation, axis3 = Architecture, y = freq)) +
-  geom_alluvium(aes(fill = Categorie),
-               curve_type = "sigmoid") +
-  geom_stratum(aes(fill = Categorie), col = "black", fill="lightgrey") +
+               aes(axis1 = Task, axis2 = Architecture,  y = freq)) +
+  geom_alluvium(aes(fill = Evaluation),
+                curve_type = "sigmoid") +
+  geom_stratum(aes(fill = Evaluation), col = "black", fill="lightgrey") +
   geom_text(stat = "stratum",
             aes(label = after_stat(stratum)), size = 4.5) +
   
-scale_x_discrete(limits = c("Task","Architecture","Evaluation"),
-                 expand = c(0.15, 0.05)) +
-  labs( fill = paste0("Archaeological categories (n = ", sum(frequency$freq), ")")) +
+  scale_x_discrete(limits = c("Task","Architecture"),
+                   expand = c(0.15, 0.05)) +
+  labs( fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
   theme_void()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
 
-#Plot the graph
+# Plot the graph
 plot
 
 ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
 ggsave("./Export/Graph/Figure_05.pdf", plot = plot, width = 16, height = 10, units = "in")
+
+
+# Plot from Task to Archaeological fields with Eval in background
+plot <- ggplot(data = frequency,
+               aes(axis1 = Task, axis2 = Categorie,  y = freq)) +
+  geom_alluvium(aes(fill = Evaluation),
+                curve_type = "sigmoid") +
+  geom_stratum(aes(fill = Evaluation), col = "black", fill="lightgrey") +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum)), size = 4.5) +
+  
+  scale_x_discrete(limits = c("Task","Categories"),
+                   expand = c(0.15, 0.05)) +
+  labs( fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
+  theme_void()+
+  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
+
+# Plot the graph
+plot
+
+ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 16, height = 10, units = "in")
+
+# 03.14 Additional for a full alluvial diagramm ###############################
+
+#plot <- ggplot(data = frequency,
+#       aes(axis1 = Task, axis2 = Evaluation, axis3 = Architecture, y = freq)) +
+#  geom_alluvium(aes(fill = Categorie),
+#               curve_type = "sigmoid") +
+#  geom_stratum(aes(fill = Categorie), col = "black", fill="lightgrey") +
+#  geom_text(stat = "stratum",
+#            aes(label = after_stat(stratum)), size = 4.5) +
+  
+#scale_x_discrete(limits = c("Task","Architecture","Evaluation"),
+#                 expand = c(0.15, 0.05)) +
+#  labs( fill = paste0("Archaeological categories (n = ", sum(frequency$freq), ")")) +
+#  theme_void()+
+#  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
+
