@@ -341,7 +341,7 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
 plot 
 ```
 
-![](02 - Graphs_figures/models%20year%20of%20publication-1.png)<!-- -->
+![screenshot](02 - Graphsfigures/models_year_of_publication-1.png)
 
 ``` r
 # Export the plot  
