@@ -3,8 +3,6 @@ Graphic from article
 Mathias Bellat
 July, 23, 2024
 
-**All the path and file names are personal and can no be access**
-
 # 00 Preparation
 
 ``` r
@@ -34,7 +32,7 @@ sessionInfo()
 
     ## R version 4.4.0 (2024-04-24 ucrt)
     ## Platform: x86_64-w64-mingw32/x64
-    ## Running under: Windows 11 x64 (build 22631)
+    ## Running under: Windows 10 x64 (build 19045)
     ## 
     ## Matrix products: default
     ## 
@@ -44,31 +42,32 @@ sessionInfo()
     ## [3] LC_MONETARY=French_France.utf8 LC_NUMERIC=C                  
     ## [5] LC_TIME=French_France.utf8    
     ## 
-    ## time zone: Europe/Paris
+    ## time zone: Europe/Berlin
     ## tzcode source: internal
     ## 
     ## attached base packages:
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ##  [1] knitr_1.47          RColorBrewer_1.1-3  rnaturalearth_1.0.1
-    ##  [4] readxl_1.4.3        tibble_3.2.1        plyr_1.8.9         
-    ##  [7] stringr_1.5.1       ggalluvial_0.12.5   ggplot2_3.5.1      
-    ## [10] readr_2.1.5         dplyr_1.1.4        
+    ##  [1] RColorBrewer_1.1-3  rnaturalearth_1.0.1 tibble_3.2.1       
+    ##  [4] plyr_1.8.9          stringr_1.5.1       ggalluvial_0.12.5  
+    ##  [7] ggplot2_3.5.1       readr_2.1.5         dplyr_1.1.4        
+    ## [10] pacman_0.5.1       
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] utf8_1.2.4         generics_0.1.3     class_7.3-22       KernSmooth_2.23-22
-    ##  [5] stringi_1.8.4      hms_1.1.3          digest_0.6.35      magrittr_2.0.3    
-    ##  [9] evaluate_0.24.0    grid_4.4.0         fastmap_1.2.0      cellranger_1.1.0  
-    ## [13] jsonlite_1.8.8     e1071_1.7-14       DBI_1.2.2          httr_1.4.7        
-    ## [17] fansi_1.0.6        scales_1.3.0       codetools_0.2-20   cli_3.6.2         
-    ## [21] rlang_1.1.3        units_0.8-5        munsell_0.5.1      withr_3.0.0       
-    ## [25] yaml_2.3.8         tools_4.4.0        tzdb_0.4.0         colorspace_2.1-0  
-    ## [29] vctrs_0.6.5        R6_2.5.1           proxy_0.4-27       lifecycle_1.0.4   
-    ## [33] classInt_0.4-10    pkgconfig_2.0.3    terra_1.7-78       pillar_1.9.0      
-    ## [37] gtable_0.3.5       glue_1.7.0         Rcpp_1.0.12        sf_1.0-16         
-    ## [41] xfun_0.45          tidyselect_1.2.1   htmltools_0.5.8.1  rmarkdown_2.27    
-    ## [45] compiler_4.4.0
+    ##  [5] stringi_1.8.4      hms_1.1.3          digest_0.6.37      magrittr_2.0.3    
+    ##  [9] evaluate_1.0.0     grid_4.4.0         fastmap_1.2.0      jsonlite_1.8.9    
+    ## [13] e1071_1.7-16       DBI_1.2.3          httr_1.4.7         fansi_1.0.6       
+    ## [17] scales_1.3.0       codetools_0.2-20   cli_3.6.3          crayon_1.5.3      
+    ## [21] rlang_1.1.4        units_0.8-5        bit64_4.5.2        munsell_0.5.1     
+    ## [25] withr_3.0.1        yaml_2.3.10        parallel_4.4.0     tools_4.4.0       
+    ## [29] tzdb_0.4.0         colorspace_2.1-1   vctrs_0.6.5        R6_2.5.1          
+    ## [33] proxy_0.4-27       lifecycle_1.0.4    classInt_0.4-10    bit_4.5.0         
+    ## [37] vroom_1.6.5        pkgconfig_2.0.3    terra_1.7-78       pillar_1.9.0      
+    ## [41] gtable_0.3.5       glue_1.7.0         Rcpp_1.0.13        sf_1.0-17         
+    ## [45] xfun_0.47          tidyselect_1.2.1   rstudioapi_0.16.0  knitr_1.48        
+    ## [49] htmltools_0.5.8.1  rmarkdown_2.28     compiler_4.4.0
 
 ## 01 Import data sets
 
@@ -77,20 +76,7 @@ sessionInfo()
 # 01.1 Import the metada infos ################################################
 
 info <- read_delim("./ML_archaeology_metadata.csv", delim = ";")
-head(info)
 ```
-
-    ## # A tibble: 6 × 9
-    ##   ID    Name         Year Authors Tittle Abstract Country of affiliati…¹ Journal
-    ##   <chr> <chr>       <dbl> <chr>   <chr>  <chr>    <chr>                  <chr>  
-    ## 1 ID001 Nguifo et …  1997 Nguifo… PLATA… The aut… FRA                    Comput…
-    ## 2 ID002 O'Sullivan…  2000 O'Sull… Agent… Agent-b… GBR                    Enviro…
-    ## 3 ID003 Amigoni an…  2009 Amigon… THE M… The app… ITA                    Applie…
-    ## 4 ID004 Boon et al…  2009 Boon, … Digit… We desc… NLD                    Interd…
-    ## 5 ID005 Toler et a…  2010 Toler-… Multi… We pres… USA                    Acm Tr…
-    ## 6 ID006 Barcelo an…  2012 Barcel… Funct… Why arc… ESP                    Medite…
-    ## # ℹ abbreviated name: ¹​`Country of affiliation`
-    ## # ℹ 1 more variable: `Open Access` <chr>
 
 | ID    | Name                          | Year | Authors                                                                        | Tittle                                                                                                    | Abstract                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Country of affiliation | Journal                                        | Open Access |
 |:------|:------------------------------|-----:|:-------------------------------------------------------------------------------|:----------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------|:-----------------------------------------------|:------------|
@@ -100,23 +86,12 @@ head(info)
 | ID004 | Boon et al. 2009-1            | 2009 | Boon, Paul; van Der Maaten, Laurens; Paijmans, Hans; Postma, Eric; Lange, Guus | Digital Support for Archaeology                                                                           | We describe an interdisciplinary approach in which computer scientists develop techniques to support archaeology. In the Reading Images for the Cultural Heritage ( RICH) project, a variety of methods have been developed to support archaeologists in the visualization, categorization, and characterization of archaeological objects, such as medieval glass, coins, ceramics, and seeds. The methods are based on image processing and machine learning algorithms that are tailored to the task at hand. We describe the algorithms and illustrate their application on archaeological datasets. The virtues and pitfalls of the interdisciplinary approach to archaeology are discussed.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | NLD                    | Interdisciplinary Science Reviews              | No          |
 | ID005 | Toler et al. 2010             | 2010 | Toler-Franklin, C; Brown, B; Weyrich, T; Funkhouser, T; Rusinkiewicz, S        | Multi-Feature Matching of Fresco Fragments                                                                | We present a multiple-feature approach for determining matches between small fragments of archaeological artifacts such as Bronze-Age and Roman frescoes. In contrast with traditional 2D and 3D shape matching approaches, we introduce a set of feature descriptors that are based on not only color and shape, but also normal maps. These are easy to acquire and combine high data quality with discriminability and robustness to some types of deterioration. Our feature descriptors range from general-purpose to domain-specific, and are quick to compute and match. We have tested our system on three datasets of fresco fragments, demonstrating that multi-cue matching using different subsets of features leads to different tradeoffs between efficiency and effectiveness. In particular, we show that normal-based features are more effective than color-based ones at similar computational complexity, and that 3D features are more discriminative than ones based on 2D or normals, but at higher computational cost. We also demonstrate how machine learning techniques can be used to effectively combine our new features with traditional ones. Our results show good retrieval performance, significantly improving upon the match prediction rate of state-of-the-art 3D matching algorithms, and are expected to extend to general matching problems in applications such as texture synthesis and forensics.                                                                                                   | USA                    | Acm Transactions on Graphics                   | No          |
 
-Five first row of infos table
+Infos table
 
 ``` r
 # 01.2 Import the observations #################################################
 obs <- read_delim("./ML_archaeology_info.csv", delim = ";", na = "")
-head(obs)
 ```
-
-    ## # A tibble: 6 × 8
-    ##   Name                ID     Date Algorithms Architecture Field Evaluation Task 
-    ##   <chr>               <chr> <dbl> <chr>      <chr>        <chr> <chr>      <chr>
-    ## 1 Nguifo et al. 1997  ID001  1997 LEGAL      Decision Tr… Clas… Classific… Arte…
-    ## 2 O'Sullivan and Hak… ID002  2000 <NA>       <NA>         <NA>  <NA>       <NA> 
-    ## 3 Amigoni and Schiaf… ID003  2009 <NA>       <NA>         <NA>  <NA>       <NA> 
-    ## 4 Boon et al. 2009-1  ID004  2009 TiMBL      Unsupervise… Cons… Classific… Text…
-    ## 5 Boon et al. 2009-2  ID004  2009 <NA>       <NA>         Clas… Theory     Theo…
-    ## 6 Toler et al. 2010   ID005  2010 C4.5; RF;… Decision Tr… Cons… Classific… Arch…
 
 | Name                          | ID    | Date | Algorithms | Architecture                         | Field                                            | Evaluation     | Task                    |
 |:------------------------------|:------|-----:|:-----------|:-------------------------------------|:-------------------------------------------------|:---------------|:------------------------|
@@ -126,7 +101,7 @@ head(obs)
 | Boon et al. 2009-1            | ID004 | 2009 | TiMBL      | Unsupervised Learning and Clustering | Conservation and Cataloguing                     | Classification | Text Extraction         |
 | Boon et al. 2009-2            | ID004 | 2009 | NA         | NA                                   | Classification (of material) and Typology;Theory | Theory         | Theory                  |
 
-Five first row of observation table
+Observation table
 
 ``` r
 # 01.3 Remove non reviewed papers ##############################################
@@ -238,11 +213,6 @@ pub$year <- as.numeric(as.character(pub$year))
 
 # Left join df years to all years
 df1 <- join(data.frame(year = 1997:2022), pub)   
-```
-
-    ## Joining by: year
-
-``` r
 df1[is.na(df1$Freq), "Freq"] <- 0
 
 # Create the plot
@@ -296,16 +266,7 @@ plot <- ggplot() +
     legend.box.just = "left",
     legend.text = element_text(size = 11),
     legend.title = element_text(size = 12, face = "bold"))# Center the legend box
-```
 
-    ## Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
-    ## 3.5.0.
-    ## ℹ Please use the `legend.position.inside` argument of `theme()` instead.
-    ## This warning is displayed once every 8 hours.
-    ## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-    ## generated.
-
-``` r
 # Check the plot
 plot 
 ```
@@ -450,12 +411,16 @@ freq_df$year <- as.numeric(as.character(freq_df$year))
 # Convert the categories from factors to characters
 freq_df$category <- as.character(freq_df$category)
 
+# Blindfold colors
+color <- c('#00429d', '#6a4285', '#8e4575', '#a74d6b', '#b95967', '#c76767', '#d2776b', '#d88974', '#db9c80', '#daaf90', '#d4c4a3', '#c7d8ba', '#edded8', '#feecdb', '#ffffe0')
+
 # Create the plot
 plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
-  geom_bar(stat = "identity", colour="black") +
-  geom_text(aes(label = Freq), vjust = 0, col = "white")+
+  geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
+  geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
+  scale_fill_manual(values = color) + # Apply the custom color palette
   labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
-  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 90)) +
+  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
   theme_bw()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
 
@@ -536,10 +501,18 @@ full_second[,5][full_second[,5] == "Theory"] <- NA
 final <- full_second[complete.cases(full_second[,5]), ]
 
 # 03.7 Merge all for a frequency table #########################################
+first.alluvial <- full_first[,1:4]
+colnames(first.alluvial) <- c("Author", "Architecture","Evaluation","Task")
+
 row.names(final) <- 1:nrow(final)
 colnames(final) <- c("Author", "Architecture","Evaluation","Task", "Category")
 write.csv(final, "./Export/final_infos.csv", fileEncoding = "UTF-8")
+```
 
+Here repeat the steps 3.9 - 3.11 with both final and first.alluvial
+data.
+
+``` r
 # 03.9 Remove under represented tasks ##########################################
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
@@ -594,9 +567,11 @@ frequency <- frequency_df[frequency_df$Freq > 0,]
 colnames(frequency) <- c("Evaluation","Category","Task","Architecture","freq")
 save(list = c("full","final","frequency"), file = "./Export/AlluvialGraph.RData")
 rm(list = ls())
+```
 
+``` r
 # 03.13 Plot the alluvial diagramm #############################################
-load("./Export/AlluvialGraph.RData")
+load("./Export/FirstAlluvialGraph.RData")
 
 # Plot from Task to Architecture with Eval in background
 plot <- ggplot(data = frequency,
@@ -617,14 +592,7 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-
-![](02---Graphs_files/figure-gfm/alluvial%20diagram-1.png)<!-- -->
+![](02---Graphs_files/figure-gfm/alluvial%20plot%20hide-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
@@ -651,21 +619,14 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-
-![](02---Graphs_files/figure-gfm/alluvial%20diagram%20bis-1.png)<!-- -->
+![](02---Graphs_files/figure-gfm/alluvial%20plot%20second%20hide-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
 ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 16, height = 10, units = "in")
 ```
 
-# 03.1 Additionnal alluvial diagramm
+# 03.1 Additionnal alluvial diagram
 
 ``` r
 plot <- ggplot(data = frequency,
@@ -684,12 +645,3 @@ scale_x_discrete(limits = c("Task","Architecture","Evaluation"),
 
 plot
 ```
-
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-    ## Warning in to_lodes_form(data = data, axes = axis_ind, discern =
-    ## params$discern): Some strata appear at multiple axes.
-
-![](02---Graphs_files/figure-gfm/alluvial%20diagram%20optional-1.png)<!-- -->

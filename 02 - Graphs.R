@@ -15,7 +15,7 @@
 getwd()
 
 # Set folder direction
-setwd(dir="E:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/")
+setwd(dir="G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/")
 
 # Clean up workspace
 rm(list = ls(all.names = TRUE))
@@ -233,12 +233,16 @@ freq_df$year <- as.numeric(as.character(freq_df$year))
 # Convert the categories from factors to characters
 freq_df$category <- as.character(freq_df$category)
 
+# Blindfold colors
+color <- c('#00429d', '#6a4285', '#8e4575', '#a74d6b', '#b95967', '#c76767', '#d2776b', '#d88974', '#db9c80', '#daaf90', '#d4c4a3', '#c7d8ba', '#edded8', '#feecdb', '#ffffe0')
+
 # Create the plot
 plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
-  geom_bar(stat = "identity", colour="black") +
-  geom_text(aes(label = Freq), vjust = 0, col = "white")+
+  geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
+  geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
+  scale_fill_manual(values = color) + # Apply the custom color palette
   labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
-  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 90)) +
+  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
   theme_bw()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
 
@@ -311,11 +315,17 @@ full_second[,5][full_second[,5] == "Theory"] <- NA
 final <- full_second[complete.cases(full_second[,5]), ]
 
 # 03.7 Merge all for a frequency table #########################################
+first.alluvial <- full_first[,1:4]
+colnames(first.alluvial) <- c("Author", "Architecture","Evaluation","Task")
+
 row.names(final) <- 1:nrow(final)
 colnames(final) <- c("Author", "Architecture","Evaluation","Task", "Category")
+
 write.csv(final, "./Export/final_infos.csv", fileEncoding = "UTF-8")
 
 # 03.8 Remove under represented tasks ##########################################
+
+# For the first graph
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
@@ -365,7 +375,7 @@ frequency_df <- as.data.frame(frequency_table)
 frequency <- frequency_df[frequency_df$Freq > 0,]
 
 colnames(frequency) <- c("Evaluation","Category","Task","Architecture","freq")
-save(list = c("full","final","frequency"), file = "./Export/AlluvialGraph.RData")
+save(list = c("full","final","frequency"), file = "./AlluvialGraph.RData")
 rm(list = ls())
 
 # 03.12 Plot the alluvial diagramm #############################################
