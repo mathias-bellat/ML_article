@@ -84,7 +84,7 @@ df1[is.na(df1$Freq), "Freq"] <- 0
 plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
   geom_rect( xmin = 2019, xmax = 2022,  ymin = -Inf,
              ymax = Inf,  fill = "lightblue",  alpha = 0.03) +
-  coord_cartesian(xlim =c(1997, 2023), ylim = c(0, 60)) +
+  coord_cartesian(xlim =c(1997, 2023), ylim = c(0, 50)) +
   geom_line(color = "black", linewidth = 0.75) +  labs(x = "Years", y = paste0("Number of articles (n = ", sum(df1$Freq),")")) +
   geom_text(aes(label = round(Freq, 2)), vjust = -0.95, hjust = 0.95) +
   geom_point(shape=21, color="black", fill="#69b3a2", size=4) +
@@ -95,8 +95,8 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
 plot 
 
 # Export the plot  
-ggsave("./Export/Graph/Figure.02.png", plot = plot, width = 12, height = 6, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure.02.pdf", plot = plot, width = 12, height = 6, units = "in")
+ggsave("./Export/Graph/Figure.02.png", plot = plot, width = 6, height = 6, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure.02.pdf", plot = plot, width = 6, height = 6, units = "in")
 
 # 02.2 Country list ############################################################
 countries <- table(metadata$`Country of affiliation`)
