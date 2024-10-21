@@ -15,7 +15,7 @@
 getwd()
 
 # Set folder direction
-setwd()
+setwd(dir="G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/")
 
 # Clean up workspace
 rm(list = ls(all.names = TRUE))
@@ -85,7 +85,7 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
   geom_rect( xmin = 2019, xmax = 2022,  ymin = -Inf,
              ymax = Inf,  fill = "lightblue",  alpha = 0.03) +
   coord_cartesian(xlim =c(1997, 2023), ylim = c(0, 50)) +
-  geom_line(color = "black", linewidth = 0.75) +  labs(x = "Years", y = paste0("Number of articles (n = ", sum(df1$Freq),")")) +
+  geom_line(color = "black", linewidth = 0.75) +  labs(x = "Years", y = paste0("Number of publications (n = ", sum(df1$Freq),")")) +
   geom_text(aes(label = round(Freq, 2)), vjust = -0.95, hjust = 0.95) +
   geom_point(shape=21, color="black", fill="#69b3a2", size=4) +
   scale_x_continuous(breaks = seq(2000, max(df1$year), by = 5)) +
@@ -95,8 +95,8 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
 plot 
 
 # Export the plot  
-ggsave("./Export/Graph/Figure.02.png", plot = plot, width = 6, height = 6, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure.02.pdf", plot = plot, width = 6, height = 6, units = "in")
+ggsave("./Export/Graph/Figure_03.png", plot = plot, width = 7, height = 6, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_03.pdf", plot = plot, width = 7, height = 6, units = "in")
 
 # 02.2 Country list ############################################################
 countries <- table(metadata$`Country of affiliation`)
@@ -130,10 +130,10 @@ plot <- ggplot() +
 plot 
 
 # Export the plot  
-ggsave("./Export/Graph/Figure_03.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_03.pdf", plot = plot, width = 16, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_04.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_04.pdf", plot = plot, width = 16, height = 10, units = "in")
 
-# 02.3 Most prolific authors ####################################################
+# 02.3 Most prolific authors (not included in the article) #####################
 # Prepare the authors dataset
 authors <- as.data.frame(metadata$Authors)
 authors <- authors %>% add_column(pest_matrix = authors$`metadata$Authors` %>% str_split(';', simplify = T))
@@ -187,7 +187,7 @@ summary(as.factor(metadata$`Open Access`))
 # Ratio in purcent
 (sum(metadata$`Open Access` == "Yes")/nrow(metadata))*100
 
-# 02.6 Number of articles for each categories ##################################
+# 02.6 Number of articles for each subfield of archaeology #####################
 cat <- review[,c(3,6)]
 cat <- cat %>% add_column(pest_matrix = cat$Field %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
@@ -250,31 +250,145 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
 plot
 
 # Export plot
-ggsave("./Export/Graph/Figure_04.png", plot = plot, width = 15, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_04.pdf", plot = plot, width = 15, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 15, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_05.pdf", plot = plot, width = 15, height = 10, units = "in")
 
-# 03 Alluvial diagram ----------------------------------------------------------
-# 03.1 Models used #############################################################
 
-# Split the model column by semicolon
-models <- as.data.frame(review[,c(1,5)])
-models <- models %>% add_column(pest_matrix = models$Architecture %>% str_split(';', simplify = T))
-models_full <- as.data.frame(models$pest_matrix)
-models_full <- cbind(models$Name, models_full)
-colnames(models_full)[colnames(models_full) == "models$Name" ] <- "Name"
-
-# 03.2 Archaeological categories ###############################################
-
-# Split the categories column by semicolon
-cat <- review[,c(1,6)]
-cat <- cat %>% add_column(pest_matrix = cat$Field %>% str_split(';', simplify = T))
+# 02.7 Number of articles for each architectures of models #####################
+cat <- review[,c(3,5)]
+cat <- cat %>% add_column(pest_matrix = cat$Architecture %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
+cat <- cbind(cat[,c(1:2)], cat_full)
 
-# 03.3 Merge ###################################################################
-full <- cbind(models_full, review[,c(7:8)])
-full <- cbind(full, cat_full[,])
+# Split the column to have every values as a frequency table
+archi <- separate(cat,3,8)
+archi <- archi[c(nrow(cat)+1:nrow(archi)),c(1,3)]
+archi$V1[archi$V1 ==""] <- NA
+archi$V1[archi$V1 =="N/A"] <- NA
 
-# 03.4 Function to concatenate the columns #####################################
+archi <- na.omit(archi)
+
+# Convert as number date
+archi$Date <- as.numeric(archi$Date)
+
+# Create the frenquence table
+freq_table <- table(archi$Date, archi$V1)
+freq_df <- as.data.frame(freq_table)
+colnames(freq_df) <- c("year", "architecture", "Freq")
+
+# Remove absence of data
+freq_df <- freq_df[freq_df$Freq > 0,]
+
+# Convert the date to number
+freq_df$year <- as.numeric(as.character(freq_df$year))
+
+# Convert the categories from factors to characters
+freq_df$category <- as.character(freq_df$architecture)
+
+# Blindfold colors
+color <- c('#9F0162', '#009F81', '#FF5AAF', '#00FCCF', '#8400CD', '#008DF9', '#00C2F9', '#FFB2FD', '#FF6E3A')
+
+# Create the plot
+plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = architecture)) +
+  geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
+  geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
+  scale_fill_manual(values = color) + # Apply the custom color palette
+  labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
+  coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
+  theme_bw()+
+  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
+
+# Plot
+plot
+
+# Export plot
+ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 15, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 15, height = 10, units = "in")
+
+
+# 02.8 Number of articles for each type of input data ##########################
+cat <- review[,c(3,9)]
+cat <- cat %>% add_column(pest_matrix = review$Input %>% str_split(';', simplify = T))
+cat_full <- as.data.frame(cat$pest_matrix)
+cat <- cbind(cat[,c(1:2)], cat_full)
+
+# Split the column to have every values as a frequency table
+input <- separate(cat,3,4)
+input <-input[c(nrow(cat)+1:nrow(input)),c(1,3)]
+input$V1[input$V1 ==""] <- NA
+input$V1[input$V1 =="Theory"] <- NA
+input <- na.omit(input)
+input <- as.data.frame(table(input$V1))
+input$Var1 <- as.character(input$Var1)
+
+# Remove under represented categories
+input <- input[order(-input$Freq), ]
+top5 <- input[c(1:5), ]
+other_sum <- sum(input$Freq[6:nrow(input)])
+input <- rbind(top5, data.frame(Var1 = "Others", Freq = other_sum))
+input$Var1 <- factor(input$Var1, levels = input$Var1)
+print(input)
+
+# Blindfold colors
+color <- c('#9F0162', '#009F81', '#FF5AAF', '#008DF9', '#FF6E3A', 'darkgray')
+
+
+# Barplot of the input
+plot <- ggplot(input, aes(x = Var1, y = Freq)) +
+  geom_bar(stat = "identity", fill = color) +
+  labs(x = "Input categories", y = paste0("Number of studies (n =", sum(input$Freq),")")) +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 15))+
+  theme_classic() +
+ theme(axis.ticks.x = element_blank())
+  
+
+# Plot
+plot
+
+# Export plot
+ggsave("./Export/Graph/Figure_07.png", plot = plot, width = 6, height = 5, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_07.pdf", plot = plot, width = 6, height = 5, units = "in")
+
+# 02.9 Number of results categories ############################################
+results <- as.data.frame(table(review$Results))
+
+# Compute percentages
+results$fraction <- results$Freq / sum(results$Freq)
+
+# Compute the cumulative percentages (top of each rectangle)
+results$ymax <- cumsum(results$fraction)
+
+# Compute the bottom of each rectangle
+results$ymin <- c(0, head(results$ymax, n=-1))
+
+# Compute label position
+results$labelPosition <- (results$ymax + results$ymin) / 2
+
+# Compute a good label
+results$label <- paste0(results$Var1, "\n ", round(results$fraction*100, digits = 1), "%")
+
+# Blindfold colors
+color <- c('#9F0162', '#008DF9', 'darkgray','#009F81', '#FF6E3A')
+
+# Make the plot
+plot <- ggplot(results, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Var1)) +
+  geom_rect() +
+  geom_label( x=4.25, aes(y=labelPosition, label=label), size=4) +
+  scale_fill_manual(values = color) +
+  coord_polar(theta="y") +
+  xlim(c(2, 4.2)) +
+  theme_void() +
+  theme(legend.position = "none")
+
+# Plot
+plot
+
+# Export plot
+ggsave("./Export/Graph/Figure_08.png", plot = plot, width = 6, height = 5, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_08.pdf", plot = plot, width = 6, height = 5, units = "in")
+
+# 03 Subfield categories alluvial diagram --------------------------------------
+# 03.1 Function to concatenate the columns #####################################
 separate <- function(df, A, B) {
   for (i in 1:nrow(df)) {
     for (j in A:B) {
@@ -288,50 +402,38 @@ separate <- function(df, A, B) {
   return(df)
 } 
 
-# 03.5 Concatenate the architecture columns ####################################
-full_first <- separate(full, 2, 7)
-full_first <- full_first[-c(1:nrow(full)),]
-full_first <- full_first[,-c(3:7)]
+# 03.2 Archaeological categories concatenate ###################################
 
-# Replace white spaces and NA
-full_first[,2][full_first[,2] ==""] <- NA
-full_first[,2][full_first[,2] =="NA"] <- NA
-full_first[,2][full_first[,2] == "N/A"] <- NA
+# Split the categories column by semicolon
+cat <- review[,c(7:8,6)]
+cat <- cat %>% add_column(pest_matrix = cat$Field %>% str_split(';', simplify = T))
+cat_full <- as.data.frame(cat$pest_matrix)
+cat_full <- cbind(cat[,c(1,2)], cat_full)
 
-full_first <- na.omit(full_first)
 
-# 03.6 Concatenate the field columns ###########################################
-full_second <- separate(full_first, 5, 8)
-full_second <- full_second[-c(1:nrow(full_first)),]
-full_second <- full_second[,-c(6:8)]
+full_first <- separate(cat_full,3,6)
+full_first <- full_first[-c(1:nrow(cat_full)),]
+full_first <- full_first[,-c(4:6)]
 
 # Replace white spaces NA, theory and non ML methods
-full_second[,5][full_second[,5] == ""] <- NA
-full_second[,5][full_second[,5] == "NA"] <- NA
-full_second[,5][full_second[,5] == "Theory"] <- NA
-
+full_first[,3][full_first[,3] == ""] <- NA
+full_first[,3][full_first[,3] == "NA"] <- NA
+full_first[,3][full_first[,3] == "Theory"] <- NA
 
 # Remove absence of case
-final <- full_second[complete.cases(full_second[,5]), ]
+final <- full_first[complete.cases(full_first[,3]), ]
+colnames(final) <- c("Evaluation", "Task","Category")
 
-# 03.7 Merge all for a frequency table #########################################
-first.alluvial <- full_first[,1:4]
-colnames(first.alluvial) <- c("Author", "Architecture","Evaluation","Task")
+write.csv(final, "./Export/first_alluvial.csv", fileEncoding = "UTF-8")
 
-row.names(final) <- 1:nrow(final)
-colnames(final) <- c("Author", "Architecture","Evaluation","Task", "Category")
+# 03.3 Remove under represented tasks ##########################################
 
-write.csv(final, "./Export/final_infos.csv", fileEncoding = "UTF-8")
-
-# 03.8 Remove under represented tasks ##########################################
-
-# For the first graph
 final <- as.data.frame(final)
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
 
 # Define the number
-x <- 10
+x <- 5
 list <- subset(frequency_df, frequency_df$Freq < x)
 old <- as.vector(list$Var1)
 for (i in 1:nrow(final)) {
@@ -340,20 +442,91 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 03.9 Remove under represented archaeological categories ######################
+# 03.4 Remove under represented archaeological categories ######################
 frequency_table <- table(final$Category)
 frequency_df <- as.data.frame(frequency_table)
 
-x <- 10
+x <- 5
 list <- subset(frequency_df, frequency_df$Freq < x)
 old <- as.vector(list$Var1)
 for (i in 1:nrow(final)) {
   for (j in 1:length(old)) {
-    ifelse(final[i,"Category"] == old[j], final[i,"Category"] <- "Others", final[i,"Categorie"] <- final[i,"Category"])
+    ifelse(final[i,"Category"] == old[j], final[i,"Category"] <- "Others", final[i,"Category"] <- final[i,"Category"])
   }
 }
 
-# 03.10 Remove under represented ML categories #################################
+# 03.5 Plot the first alluvial diagram #########################################
+frequency_table <- table(final$Evaluation, final$Category, final$Task)
+
+# Convert the frequency table to a data frame
+frequency_df <- as.data.frame(frequency_table)
+frequency <- frequency_df[frequency_df$Freq > 0,]
+colnames(frequency) <- c("Evaluation","Category","Task","freq")
+
+
+# Plot from Task to Categories with Evaluation in background
+plot <- ggplot(data = frequency,
+               aes(axis1 = Task, axis2 = Category,  y = freq)) +
+  geom_alluvium(aes(fill = Evaluation),
+                curve_type = "sigmoid") +
+  geom_stratum(aes(fill = Evaluation), col = "black", fill="lightgrey") +
+  geom_text(stat = "stratum",
+            aes(label = after_stat(stratum)), size = 4) +
+  
+  scale_x_discrete(limits = c("Task","Caegories"),
+                   expand = c(0.15, 0.05)) +
+  labs(fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
+  theme_void()+
+  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 14)) 
+
+# Plot the graph
+plot
+
+ggsave("./Export/Graph/Figure_09.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_09.pdf", plot = plot, width = 12, height = 10, units = "in")
+
+
+
+# 04 Architectures categories alluvial diagram ---------------------------------
+# 04.1 Architectures categories concatenate ####################################
+# Split the categories column by semicolon
+cat <- review[,c(7:8,5)]
+cat <- cat %>% add_column(pest_matrix = cat$Architecture %>% str_split(';', simplify = T))
+cat_full <- as.data.frame(cat$pest_matrix)
+cat_full <- cbind(cat[,c(1,2)], cat_full)
+
+full_first <- separate(cat_full,3,8)
+full_first <- full_first[-c(1:nrow(cat_full)),]
+full_first <- full_first[,-c(4:8)]
+
+# Replace white spaces NA, theory and non ML methods
+full_first[,3][full_first[,3] == ""] <- NA
+full_first[,3][full_first[,3] == "NA"] <- NA
+full_first[,3][full_first[,3] == "Theory"] <- NA
+full_first[,3][full_first[,3] == "N/A"] <- NA
+
+# Remove absence of case
+final <- full_first[complete.cases(full_first[,3]), ]
+colnames(final) <- c("Evaluation", "Task","Architecture")
+
+write.csv(final, "./Export/second_alluvial.csv", fileEncoding = "UTF-8")
+
+# 04.2 Remove under represented tasks ##########################################
+final <- as.data.frame(final)
+frequency_table <- table(final$Task)
+frequency_df <- as.data.frame(frequency_table)
+
+# Define the number
+x <- 5
+list <- subset(frequency_df, frequency_df$Freq < x)
+old <- as.vector(list$Var1)
+for (i in 1:nrow(final)) {
+  for (j in 1:length(old)) {
+    ifelse(final[i,"Task"] == old[j], final[i,"Task"] <- "Others", final[i,"Task"] <- final[i,"Task"])
+  }
+}
+
+# 04.3 Remove under represented archaeological categories ######################
 frequency_table <- table(final$Architecture)
 frequency_df <- as.data.frame(frequency_table)
 
@@ -366,79 +539,79 @@ for (i in 1:nrow(final)) {
   }
 }
 
-# 03.11 Save and export the plot ###############################################
-frequency_table <- table(final$Evaluation, final$Category, final$Task, final$Architecture)
+# 04.4 Plot the second alluvial diagramm ######################################
+frequency_table <- table(final$Evaluation, final$Architecture, final$Task)
 
 # Convert the frequency table to a data frame
 frequency_df <- as.data.frame(frequency_table)
-
 frequency <- frequency_df[frequency_df$Freq > 0,]
+colnames(frequency) <- c("Evaluation","Architecture","Task","freq")
 
-colnames(frequency) <- c("Evaluation","Category","Task","Architecture","freq")
-save(list = c("full","final","frequency"), file = "./AlluvialGraph.RData")
-rm(list = ls())
 
-# 03.12 Plot the alluvial diagramm #############################################
-load("./Export/AlluvialGraph.RData")
-
-# Plot from Task to Architecture with Eval in background
+# Plot from Task to Categories with Evaluation in background
 plot <- ggplot(data = frequency,
                aes(axis1 = Task, axis2 = Architecture,  y = freq)) +
   geom_alluvium(aes(fill = Evaluation),
                 curve_type = "sigmoid") +
   geom_stratum(aes(fill = Evaluation), col = "black", fill="lightgrey") +
   geom_text(stat = "stratum",
-            aes(label = after_stat(stratum)), size = 4.5) +
+            aes(label = after_stat(stratum)), size = 4) +
   
   scale_x_discrete(limits = c("Task","Architecture"),
                    expand = c(0.15, 0.05)) +
-  labs( fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
+  labs(fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
   theme_void()+
-  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
+  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 14)) 
 
 # Plot the graph
 plot
 
-ggsave("./Export/Graph/Figure_05.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_05.pdf", plot = plot, width = 16, height = 10, units = "in")
+ggsave("./Export/Graph/Figure_10.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_10.pdf", plot = plot, width = 12, height = 10, units = "in")
+
+# 05 Results categories alluvial diagram ---------------------------------------
+
+# 05.1 Remove under represented tasks ##########################################
+final <- review[,c(7,8,10)]
+frequency_table <- table(final$Task)
+frequency_df <- as.data.frame(frequency_table)
+
+# Define the number
+x <- 5
+list <- subset(frequency_df, frequency_df$Freq < x)
+old <- as.vector(list$Var1)
+for (i in 1:nrow(final)) {
+  for (j in 1:length(old)) {
+    ifelse(final[i,"Task"] == old[j], final[i,"Task"] <- "Others", final[i,"Task"] <- final[i,"Task"])
+  }
+}
+
+# 05.2 Plot the third alluvial diagramm ########################################
+frequency_table <- table(final$Evaluation, final$Results, final$Task)
+
+# Convert the frequency table to a data frame
+frequency_df <- as.data.frame(frequency_table)
+frequency <- frequency_df[frequency_df$Freq > 0,]
+colnames(frequency) <- c("Evaluation","Results","Task","freq")
 
 
-# Plot from Task to Archaeological fields with Eval in background
+# Plot from Task to Categories with Evaluation in background
 plot <- ggplot(data = frequency,
-               aes(axis1 = Task, axis2 = Category,  y = freq)) +
+               aes(axis1 = Task, axis2 = Results,  y = freq)) +
   geom_alluvium(aes(fill = Evaluation),
                 curve_type = "sigmoid") +
   geom_stratum(aes(fill = Evaluation), col = "black", fill="lightgrey") +
   geom_text(stat = "stratum",
-            aes(label = after_stat(stratum)), size = 4.5) +
+            aes(label = after_stat(stratum)), size = 4) +
   
-  scale_x_discrete(limits = c("Task","Categories"),
+  scale_x_discrete(limits = c("Task","Results"),
                    expand = c(0.15, 0.05)) +
-  labs( fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
+  labs(fill = paste0("Counted observations (n = ", sum(frequency$freq), ")")) +
   theme_void()+
-  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
+  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 14)) 
 
 # Plot the graph
 plot
 
-ggsave("./Export/Graph/Figure_06.png", plot = plot, width = 16, height = 10, units = "in", dpi = 600)
-ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 16, height = 10, units = "in")
-
-# 03.13 Additional for a full alluvial diagramm ###############################
-
-#plot <- ggplot(data = frequency,
-#       aes(axis1 = Task, axis2 = Evaluation, axis3 = Architecture, y = freq)) +
-#  geom_alluvium(aes(fill = Categorie),
-#               curve_type = "sigmoid") +S
-#  geom_stratum(aes(fill = Categorie), col = "black", fill="lightgrey") +
-#  geom_text(stat = "stratum",
-#            aes(label = after_stat(stratum)), size = 4.5) +
-  
-#scale_x_discrete(limits = c("Task","Architecture","Evaluation"),
-#                 expand = c(0.15, 0.05)) +
-#  labs( fill = paste0("Archaeological categories (n = ", sum(frequency$freq), ")")) +
-#  theme_void()+
-#  theme(legend.position="bottom", legend.box="vertical", legend.margin=margin(), legend.text = element_text(size = 12)) 
-
-
-
+ggsave("./Export/Graph/Figure_11.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
+ggsave("./Export/Graph/Figure_11.pdf", plot = plot, width = 12, height = 10, units = "in")
