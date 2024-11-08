@@ -1,0 +1,217 @@
+﻿Name;ID;Date;Algorithms;Architecture;Field;Evaluation;Task;Input;Results
+Nguifo et al. 1997;ID001;1997;LEGAL;Decision Trees and Rule Induction;Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Successful
+O'Sullivan and Haklay 2000;ID002;2000;;;;;;;
+Amigoni and Schiaffonati 2009;ID003;2009;;;;;;;
+Boon et al. 2009-1;ID004;2009;TiMBL;Unsupervised Learning and Clustering;Conservation and Cataloguing;Classification;Text Extraction;Text Data;Unsuccessful
+Boon et al. 2009-2;ID004;2009;;;"Classification (of material) and Typology;Theory";Theory;Theory;Theory;
+Toler et al. 2010;ID005;2010;"C4.5; RF; SVM";"Decision Trees and Rule Induction;Ensemble Learning;Linear Classifier";Conservation and Cataloguing;Classification;Architectural Reconstruction;Small Scale Images;Mixed results
+Barcelo and Almeida 2012;ID006;2012;;;"Cognitive Archaeology;Theory";Theory;Theory;Theory;
+Praisler et al. 2013;ID007;2013;;;;;;;
+Hörr et al. 2014;ID008;2014;"NB; kNN; RF; FNN; C4.5";"Bayesian Classifier;Nearest Neighbour Classifier;Ensemble Learning;Artificial Neural Network;Decision Trees and Rule Induction";Classification (of material) and Typology;Classification;Artefact Classification;Artefact Measurements;Mixed results
+Czibula et al. 2016;ID009;2016;"FNN; GA";"Artificial Neural Network;Genetic Algorithm";Bioarchaeology (Biological Anthropology);Regression;Artefact Prediction;Artefact Measurements;Successful
+Albertini et al. 2017;ID010;2017;"kNN; SVM";"Nearest Neighbour Classifier;Linear Classifier";Conservation and Cataloguing;Classification;Movement Recognition;Remote Sensing Images;Successful
+Andrew and Shepard 2017;ID011;2017;;;;;;;
+Drap et al. 2017;ID012;2017;;;;;;;
+Felicetti 2017;ID013;2017;;;"Conservation and Cataloguing;Theory";Theory;Theory;Text Data;
+Lowe et al. 2017;ID014;2017;;;;;;;
+Zhang et al. 2017;ID015;2017;;;;;;;
+Carranza 2018;ID016;2018;FFT;Decision Trees and Rule Induction;Classification (of material) and Typology;Classification;Taphonomic Classification;Stastical counting;Successful
+Gu and Buckley 2018;ID017;2018;"RF; ID3";"Ensemble Learning;Decision Trees and Rule Induction";Bioarchaeology (Biological Anthropology);Classification;Species Classification;Spectra;Successful
+Guyot et al. 2018;ID018;2018;RF;Ensemble Learning;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Jensen et al. 2018;ID019;2018;SVM;Linear Classifier;Archaeological Excavation;Classification;Archaeological Structure Classification;Remote Sensing Images;Mixed results
+Klassen et al. 2018;ID020;2018;GSSL;Unsupervised Learning and Clustering;"Archaeological Dating;Historical Archaeology";Regression;Chronology;Stastical Counting;Successful
+Agrafiotis et al. 2019;ID021;2019;;;;;;;
+Aramendi et al. 2019;ID022;2019;"SVM; RF; CTREE; C5.0";"Linear Classifier;Ensemble Learning;Decision Trees and Rule Induction;Decision Trees and Rule Induction";Bioarchaeology (Biological Anthropology);Classification;Taphonomic Classification;3D Model;Successful
+Benner et al. 2019;ID023;2019;MaEnt;Bayesian Classifier;"Landscape Archaeology;Ethnoarchaeology";Regression;Archaeological Predictive Model;Remote Sensing Images;Successful
+Byeon et al. 2019;ID024;2019;"SVM; CNN";"Linear Classifier;Artificial Neural Network";"Taphonomic;Bioarchaeology (Biological Anthropology)";Classification;Taphonomic Classification;Small Scale Images;Successful
+Cifuentes-Alcobendas and Dominguez-Rodrigo 2019;ID025;2019;CNN;Artificial Neural Network;"Taphonomic;Bioarchaeology (Biological Anthropology)";Classification;Taphonomic Classification;Small Scale Images;Successful
+Davis 2019;ID026;2019;;;Theory;Theory;Theory;Theory;
+Dominguez-Rodrigo 2018;ID027;2018;"FNN; SVM; RF; kNN; NB; C5.0";"Artificial Neural Network;Linear Classifier;Ensemble Learning;Nearest Neighbour Classifier;Bayesian Classifier;Decision Trees and Rule Induction";"Taphonomic;Experimental Archaeology;Zooarchaeology";Classification;Taphonomic Classification;Artefact Measurements;Methodological issue
+Gallwey et al. 2019;ID028;2019;CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Grilli and Remondino 2019-1;ID029;2019;"RF; LB; C4.5; RT; REPTree; FRF";"Ensemble Learning;Ensemble Learning;Decision Trees and Rule Induction;Decision Trees and Rule Induction;Decision Trees and Rule Induction;Ensemble Learning";Conservation and Cataloguing;Classification;Architectural Element Classification;3D Model;Unsuccessful
+Grilli and Remondino 2019-2;ID029;2019;kNN;Nearest Neighbour Classifier;Conservation and Cataloguing;Clustering;Image Segmentation;3D Model;Mixed results
+Lambers et al. 2019;ID030;2019;VGG;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Orengo and Garcia-Malosa 2019;ID031;2019;"SVM; CART; RF";"Linear Classifier;Decision Trees and Rule Induction;Ensemble Learning";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Pargeter et al. 2019;ID032;2019;RF;Ensemble Learning;"Experimental Archaeology;Classification (of material) and Typology";Classification;Artefact Classification;Artefact Measurements;Mixed results
+Stott et al. 2019;ID033;2019;RF;Ensemble Learning;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Toth and Vidacs 2019;ID034;2019;;;;;;;
+Trier et al. 2018;ID035;2018;ResNet;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Vahdati et al. 2019;ID036;2019;"RF; kNN; GboostRT";"Ensemble Learning;Nearest Neighbour Classifier;Ensemble Learning";"Landscape Archaeology;Cognitive Archaeology";Regression;Dispersion Models;Remote Sensing Images;Successful
+Wärmländer 2019;ID037;2019;"LR; kNN";"N/A;Nearest Neighbour Classifier";"Bioarchaeology (Biological Anthropology);Experimental Archaeology";Regression;Biochemical Prediction;Small Scale Images;Successful
+Bundzel et al. 2020;ID038;2020;"U-Net; MR-CNN";"Artificial Neural Network;Artificial Neural Network";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Casana 2020;ID039;2020;;;;;;;
+David and Douglass 2020;ID040;2020;;;Theory;Theory;Theory;Theory;
+Ginau et al. 2020;ID041;2020;FNN;Artificial Neural Network;Geoarchaeology;Classification;Chronology;Spectra;Mixed results
+Hansen and Nebel 2020;ID042;2020;RF;Ensemble Learning;Landscape Archaeology;Regression;Archaeological Predictive Model;Remote Sensing Images;Unsuccessful
+He et al. 2020;ID043;2020;;;;;;;
+Ibrahim et al. 2020;ID044;2020;;;;;;;
+Liu et al. 2020;ID045;2020;;;;;;;
+Lopez-Bulto 2020;ID046;2020;;;;;;;
+Moclán et al. 2020-2;ID047;2020;"RF; kNN; C5.0; NB; SVM; FNN";"Ensemble Learning;Nearest Neighbour Classifier;Decision Trees and Rule Induction;Bayesian Classifier;Linear Classifier;Artificial Neural Network";"Taphonomic;Zooarchaeology";Classification;Taphonomic Classification;Artefact Measurements;Methodological issue
+Moclán et al. 2020-1;ID047;2020;C5.0;Decision Trees and Rule Induction;"Taphonomic;Experimental Archaeology;Zooarchaeology";;;Artefact Measurements;
+Monna et al. 2020;ID048;2020;"NC; NB; kNN; SVM; RF; FNN";"Unsupervised Learning and Clustering;Bayesian Classifier;Nearest Neighbour Classifier;Linear Classifier;Ensemble Learning;Artificial Neural Network";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Naito et al. 2020;ID049;2020;;;;;;;
+O'Bryon et al. 2020;ID050;2020;;;;;;;
+Ramazzotti 2020;ID051;2020;;;Theory;Theory;Theory;Theory;
+Serna et al. 2020;ID052;2020;RF;Ensemble Learning;"Landscape Archaeology;Cognitive Archaeology";Regression;Environmental Reconstruction;Remote Sensing Images;Successful
+Soroush et al. 2020;ID053;2020;CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Stewart et al. 2020;ID054;2020;;;;;;;
+Sutko 2020;ID055;2020;;;;;;;
+Uddin et al. 2020;ID056;2020;;;;;;;
+Ushizima et al. 2020-1;ID057;2020;"RF; SVMr; FNN";"Ensemble Learning;Polynomial Classifier;Artificial Neural Network";Geoarchaeology;Classification;Artefact Classification;Spectra;Successful
+Ushizima et al. 2020-2;ID057;2020;"CNN; SLIC";"Artificial Neural Network;Unsupervised Learning and Clustering";Geoarchaeology;Clustering;Image Segmentation;Spectra;Successful
+Yaworsky et al. 2020;ID058;2020;"RF; MaEnt";"Ensemble Learning;Bayesian Classifier";Landscape Archaeology;Regression;Archaeological Predictive Model;Remote Sensing Images;Successful
+Abitbol et al. 2021;ID059;2021;AleNet;Artificial Neural Network;Conservation and Cataloguing;Regression;Data Quality Improvement;Text Images;Unsuccessful
+Adam and Moy 2021;ID060;2021;;;;;;;
+Agapiou et al. 2021-2;ID061;2021;RF;Ensemble Learning;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Agapiou et al. 2021-1;ID061;2021;ResNet;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Unsuccessful
+Anichini et al. 2021;ID062;2021;ResNet;Artificial Neural Network;Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Unsuccessful
+Berganzo-Besga et al. 2021;ID063;2021;YOLO;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Bertrand et al. 2021;ID064;2021;;;;;;;
+Bonhage et al. 2021;ID065;2021;MR-CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Borba et al. 2021;ID066;2021;;;;;;;
+Bordón et al. 2021;ID067;2021;VL-CC;Ensemble Learning;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Brandsen and Lippok 2021;ID068;2021;BERT;Artificial Neural Network;Conservation and Cataloguing;Classification;Text Extraction;Text Data;Successful
+Cacciari and Pocobelli 2021;ID069;2021;k-MC;N/A;;;;Remote Sensing Images;
+Carter et al. 2021;ID070;2021;MR-CNN;Artificial Neural Network;"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Character et al. 2021;ID071;2021;YOLO;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Chowdhury et al. 2021;ID072;2021;RF;Ensemble Learning;Zooarchaeology;Regression;Biochemical Prediction;Spectra;Successful
+Courtenay et al. 2021;ID073;2021;"SVM; NSVM";"Linear Classifier;Artificial Neural Network";"Zooarchaeology;Taphonomic;Classification (of material) and Typology;";Classification;Taphonomic Classification;Artefact Measurements;Mixed results
+Crawford and Paglen 2021;ID074;2021;;;;;;;
+Davis and Lundin 2021;ID075;2021;RN;Artificial Neural Network;"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Unsuccessful
+Davis et al. 2021;ID076;2021;"MR-CNN; RF";"Artificial Neural Network;Ensemble Learning";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Unsuccessful
+Dhivya and Devi. 2021;ID077;2021;CNN;Artificial Neural Network;Conservation and Cataloguing;Classification;Text Extraction;Text Images;Unsuccessful
+Dominguez-Rodrigo et al. 2021;ID078;2021;"VGG; ResNet; INC; JAS2; DN201";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;";"Taphonomic;Bioarchaeology (Biological Anthropology)";Classification;Taphonomic Classification;Small Scale Images;Mixed results
+Elliot et al. 2021;ID079;2021;"RF; SVM; kNN";"Ensemble Learning;Linear Classifier;Nearest Neighbour Classifier";"Geoarchaeology;Classification (of material) and Typology";Classification;Sourcing;Data Transformations;Successful
+Felicetti et al. 2021;ID080;2021;U-Net;Artificial Neural Network;Conservation and Cataloguing;Classification;Architectural Element Classification;Remote Sensing Images;Successful
+Orellana Figuerora et al. 2021;ID081;2021;;;;;;;
+Garcia-Molsosa et al. 2021;ID082;2021;U-Net;Artificial Neural Network;"Surveying (and Site Prospection);Historical Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Gualandi et al. 2021-1;ID083;2021;FNN;Artificial Neural Network;Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Mixed results
+Gualandi et al. 2021-2;ID083;2021;ResNet;Artificial Neural Network;Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Unsuccessful
+Herrault et al. 2021;ID084;2021;"RF; FNN";"Ensemble Learning;Artificial Neural Network";"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Unsuccessful
+Hlad et al. 2021;ID085;2021;"RF; FNN";"Ensemble Learning;Artificial Neural Network";"Classification (of material) and Typology;Bioarchaeology (Biological Anthropology)";Classification;Artefact Classification;Artefact Measurements;Successful
+Holt et al. 2021;ID086;2021;RF;Ensemble Learning;Landscape Archaeology;Theory;Theory;Theory;Not defined
+Jaiswal et al. 2021;ID087;2021;;;;;;;
+Klassen et al. 2021;ID088;2021;;;;;;;
+Kowlessar et al. 2021;ID089;2021;"ResNet; AleNet; VGG";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network";"Conservation and Cataloguing;Cognitive Archaeology";Classification;Artefact Classification;Remote Sensing Images;Mixed results
+Ma et al. 2021;ID090;2021;"SVM; kNN";"Linear Classifier;Nearest Neighbour Classifier";Archaeobotany;Classification;Species Classification;Data Transformations;Successful
+Matrone and Martini 2021-1;ID091;2021;RF;Ensemble Learning;Conservation and Cataloguing;Classification;Architectural Element Classification;3D Model;Mixed results
+Mesanza-Moraza et al. 2021;ID091;2021;"RF; DT";"Ensemble Learning;Decision Trees and Rule Induction";Conservation and Cataloguing;Regression;Data Quality Improvement;3D Model;Successful
+Matrone and Martini 2021-2;ID092;2021;DGCNN;Artificial Neural Network;Conservation and Cataloguing;Regression;Architectural Reconstruction;"Extraction Features Images; Stastical counting";Successful
+Navarro et al. 2021-1;ID093;2021;"CNN; ResNet";"Artificial Neural Network;Artificial Neural Network";Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Successful
+Navarro et al. 2021-2;ID093;2021;"SVM; RF";"Linear Classifier;Ensemble Learning";Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Successful
+Nogales et al. 2021;ID094;2021;GAN;Artificial Neural Network;Conservation and Cataloguing;Regression;Architectural Reconstruction;Small Scale Images;Mixed results
+Pawlowicz and Downum 2021;ID095;2021;"ResNet; VGG";"Artificial Neural Network;Artificial Neural Network";Classification (of material) and Typology;Classification;Artefact Classification;Small Scale Images;Successful
+Payntar et al. 2021;ID096;2021;;;;;;;
+Reese 2021;ID097;2021;FNN;Artificial Neural Network;"Landscape Archaeology;Archaeological Dating;Classification (of material) and Typology;";Regression;Chronology;Stastical Counting;Mixed results
+Reich et al. 2021;ID098;2021;MR-CNN;Artificial Neural Network;"Conservation and Cataloguing;Archaeological Excavation";Classification;Image Segmentation;Remote Sensing Images;Successful
+Tanti et al. 2021;ID099;2021;"U-Net; RF; FNN";"Artificial Neural Network;Ensemble Learning;Artificial Neural Network";"Conservation and Cataloguing;Bioarchaeology (Biological Anthropology)";Classification;Artefact Classification;Small Scale Images;Successful
+Vos et al. 2021;ID100;2021;C4.5;Decision Trees and Rule Induction;"Archaeological Excavation;Geoarchaeology";Classification;Archaeological Structure Classification;Spectra;Unsuccessful
+Zhao 2021;ID101;2021;;;;;;;
+Zhong et al. 2021;ID102;2021;;;;;;;
+Abellán et al. 2022;ID103;2022;"kkNN; RF; FNN; C5.0; SGB";"Nearest Neighbour Classifier;Ensemble Learning;Artificial Neural Network;Decision Trees and Rule Induction;Ensemble Learning";"Taphonomic;Zooarchaeology";Classification;Taphonomic Classification;Small Scale Images;Successful
+Altaweel et al. 2022;ID104;2022;MR-CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Anglisano et al. 2022;ID105;2022;"kkNN; RF; FNN";"Nearest Neighbour Classifier;Ensemble Learning;Artificial Neural Network";Classification (of material) and Typology;Classification;Sourcing;Spectra;Successful
+Badawy 2022;ID106;2022;"k-MC; HC";"N/A;Unsupervised Learning and Clustering";;;;Spectra;
+Banasiak et al. 2022;ID107;2022;"MR-CNN; R-CNN; FR-CNN; U-Net";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network";"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Unsuccessful
+Barron and Denham 2022;ID108;2022;;;;;;Stastical Counting;
+Bouzid and Barge 2022;ID109;2022;k-MC;N/A;;;;Stastical Counting;
+Demjan et al. 2022;ID110;2022;HC;Unsupervised Learning and Clustering;;;;Small Scale Images;
+Doyle et al. 2022;ID111;2022;RF;Ensemble Learning;"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Emmit et al. 2022;ID112;2022;FR-CNN;Artificial Neural Network;Classification (of material) and Typology;Classification;Artefact Classification;Artefact Images;Successful
+Fiorucci et al. 2022;ID113;2022;FR-CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Horn et al. 2022;ID114;2022;FR-CNN;Artificial Neural Network;"Conservation and Cataloguing;Cognitive Archaeology";Classification;Artefact Classification;Multilayer;Successful
+Johnson et al. 2022;ID115;2022;"RF; GB; NB";"Ensemble Learning;Ensemble Learning;Bayesian Classifier";Classification (of material) and Typology;Regression;Artefact Prediction;3D Model;Unsuccessful
+Yang et al. 2022;ID116;2022;"SegNet; SimpleNet";"Artificial Neural Network;Artificial Neural Network";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Küçükdemirci and Sarris 2022;ID117;2022;;;"Surveying (and Site Prospection);Archaeological Excavation;Theory";Theory;Theory;Theory;
+Lerner and Shimshoni 2022;ID118;2022;;;;;;;
+Liggins et al. 2022;ID119;2022;;;;;;;
+Lyons et al. 2022;ID120;2022;"ResNet; VGG";"Artificial Neural Network;Artificial Neural Network";Classification (of material) and Typology;Classification;Artefact Classification;Remote Sensing Images;Mixed results
+Miera et al. 2022;ID121;2022;RF;Ensemble Learning;"Surveying (and Site Prospection);Landscape Archaeology";Regression;Archaeological Predictive Model;Remote Sensing Images;Mixed results
+Mohsan et al. 2022;ID122;2022;;;;;;;
+Prasomphan 2022;ID123;2022;ADLFIG;Artificial Neural Network;Conservation and Cataloguing;Classification;Architectural Element Classification;Small Scale Images;Successful
+Raimundo et al. 2022;ID124;2022;;;;;;;
+Richards-Riessetto et al. 2022;ID125;2022;;;;;;;
+Schmidt et al. 2022;ID126;2022;;;;;;;
+Seeliger et al. 2022;ID127;2022;"RF; FNN; C5.0";"Ensemble Learning;Artificial Neural Network;Decision Trees and Rule Induction";Geoarchaeology;Classification;Artefact Classification;Spectra;Successful
+Štular et al. 2022;ID128;2022;TSC;Unsupervised Learning and Clustering;"Landscape Archaeology;Cognitive Archaeology";Regression;Dispersion Models;Remote Sensing Images;Mixed results
+Viertel and Konig 2022;ID129;2022;;;;;;;
+Wilson et al. 2022;ID130;2022;;;;;;;
+Wunderlich et al. 2022;ID131;2022;RN;Artificial Neural Network;"Surveying (and Site Prospection);Archaeological Excavation";Regression;Spectra Prediction;Remote Sensing Images;Mixed results
+Yang et al. 2022;ID132;2022;"SegNet; U-Net; DL3;DL3DI";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Yuan and McKee 2022;ID133;2022;;;;;;;
+Yuan et al. 2022;ID134;2022;"BiLSTM; BiGRU";"Artificial Neural Network;Artificial Neural Network";Conservation and Cataloguing;Classification;Text Extraction;Text Data;Successful
+Horn et al. 2022b;ID135;2022;"FR-CNN; DL3";"Artificial Neural Network;Artificial Neural Network";Conservation and Cataloguing;Classification;Artefact Classification;Remote Sensing Images;Successful
+van den Broeck et al. 2022;ID136;2022;;;;;;;
+Chaidron and Lermenier 2022;ID137;2022;CNN;Artificial Neural Network;"Surveying (and Site Prospection);Landscape Archaeology";Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Glebova et al. 2022;ID138;2022;;;;;;;
+Mammas et al. 2022;ID139;2022;;;;;;;
+Argyrou and Agapiou 2022;ID140;2022;;;Theory;Theory;Theory;Theory;
+Azkarate et al. 2018;ID141;2018;;;;;;;
+Bobasheva et al. 2022;ID142;2022;;;;;;;
+Alviz et al. 2022;ID143;2022;;;;;;;
+Li et al. 2022;ID144;2022;"SBS-RFR; SVM; RF";"Ensemble Learning;Linear Classifier;Ensemble Learning";Geoarchaeology;Regression;Artefact Prediction;Spectra;Successful
+Berganzo-Besga et al. 2022-1;ID145;2022;"VGG; ResNet";"Artificial Neural Network;Artificial Neural Network";Archaeobotany;Classification;Artefact Classification;Small Scale Images;Successful
+Berganzo-Besga et al. 2022-2;ID145;2022;VGG;Artificial Neural Network;Archaeobotany;Regression;Artefact Prediction;Small Scale Images;Successful
+Gully-Santiago and Morley 2022;ID146;2022;;;;;;;
+Perry and O'Sullivan 2018;ID147;2018;RF;Ensemble Learning;"Landscape Archaeology;Cognitive Archaeology";Classification;Archaeological Predictive Model;Data Transformations;Mixed results
+Gansell et al. 2014;ID148;2014;EMC;Unsupervised Learning and Clustering;Classification (of material) and Typology;Classification;Artefact Classification;Artefact Measurements;Successful
+Oonk and Spijker 2015;ID149;2015;"kkNN; SVMr; FNN";"Nearest Neighbour Classifier;Polynomial Classifier;Artificial Neural Network";Geoarchaeology;Classification;Archaeological Predictive Model;Spectra;Successful
+Mircea et al. 2015a;ID150;2015;ID3;Decision Trees and Rule Induction;"Conservation and Cataloguing;Bioarchaeology (Biological Anthropology)";Classification;Artefact Classification;Artefact Measurements;Successful
+Ionescu 2015;ID151;2015;"SVM; SVMr";"Linear Classifier;Polynomial Classifier";"Bioarchaeology (Biological Anthropology);Classification (of material) and Typology";Regression;Artefact Prediction;Artefact Measurements;Successful
+Mircea et al. 2015b;ID152;2015;"k-MC; k-MED";"N/A;N/A";;;;;
+Arriaza and Dominguez-Rodrigo 2016;ID153;2016;"DT; C5.0; RF; FNN; SVMr";"Decision Trees and Rule Induction;Decision Trees and Rule Induction;Ensemble Learning;Artificial Neural Network;Polynomial Classifier";"Experimental Archaeology;Ethnoarchaeology;Zooarchaeology";Classification;Archaeological Structure Classification;Artefact Measurements;Successful
+MacLeod 2018;ID154;2018;NB;Bayesian Classifier;Classification (of material) and Typology;Classification;Artefact Classification;Artefact Measurements;Successful
+Domínguez-Rodrigo and Baquedano 2018;ID155;2018;"FNN; SVMr; kNN; RF; NB; C5.0";"Artificial Neural Network;Polynomial Classifier;Nearest Neighbour Classifier;Ensemble Learning;Bayesian Classifier;Decision Trees and Rule Induction";"Zooarchaeology;Experimental Archaeology";Classification;Taphonomic Classification;Artefact Measurements;Methodological issue
+Bataille et al. 2018;ID156;2018;"SVM; FNN; SVMr; SGB; RF; qRF";"Linear Classifier;Artificial Neural Network;Polynomial Classifier;Ensemble Learning;Ensemble Learning;Ensemble Learning";"Geoarchaeology;Zooarchaeology;Archaeobotany;Bioarchaeology (Biological Anthropology)";Regression;Environmental Reconstruction;Remote Sensing Images;Successful
+Huffer et al. 2018;ID157;2018;INC;Artificial Neural Network;"Conservation and Cataloguing;Classification (of material) and Typology;Archaeobotany";Classification;Data Quality Improvement;Small Scale Images;Successful
+Caspari et al. 2019;ID158;2019;"CNN; SVM; SVMr";"Artificial Neural Network;Linear Classifier;Polynomial Classifier";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Altaweel and Squitieri 2019-2;ID159;2019;kNN;Nearest Neighbour Classifier;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Altaweel and Squitieri 2019-1;ID159;2019;k-MC;N/A;;;;Multilayer;
+Moclán et al. 2019-1;ID160;2019;"FNN; SVM; kNN; RF; NB";"Artificial Neural Network;Linear Classifier;Nearest Neighbour Classifier;Ensemble Learning;Bayesian Classifier";"Taphonomic;Experimental Archaeology;Zooarchaeology";Classification;Taphonomic Classification;Artefact Measurements;Methodological issue
+Moclán et al. 2019-2;ID160;2019;"FNN; SVM; kNN; RF; NB";"Artificial Neural Network;Linear Classifier;Nearest Neighbour Classifier;Ensemble Learning;Bayesian Classifier";"Taphonomic;Experimental Archaeology;Zooarchaeology";Classification;Taphonomic Classification;Artefact Measurements;Methodological issue
+Courtenay et al. 2019;ID161;2019;"FNN; SVM; kNN; NB; RF; CTREE";"Artificial Neural Network;Linear Classifier;Nearest Neighbour Classifier;Bayesian Classifier;Ensemble Learning;Decision Trees and Rule Induction";"Zooarchaeology;Experimental Archaeology";Classification;Taphonomic Classification;3D Model;Methodological issue
+Canul-Ku et al. 2019-1;ID162;2019;CNN;Artificial Neural Network;Classification (of material) and Typology;Classification;Data Quality Improvement;Multilayer;Successful
+Canul-Ku et al. 2019-2;ID163;2019;"SVM; SSVM; kNN";"Linear Classifier;Linear Classifier;Nearest Neighbour Classifier";Conservation and Cataloguing;Clustering;Data Quality Improvement;Data Transformations;Not defined
+Huffer et al. 2019-1;ID163;2019;INC;Artificial Neural Network;Classification (of material) and Typology;Classification;Artefact Classification;Multilayer;Successful
+Huffer et al. 2019-2;ID163;2019;AF;Unsupervised Learning and Clustering;Conservation and Cataloguing;Classification;Data Quality Improvement;Small Scale Images;Not defined
+Verschoof-van der Vaart and Lambers 2019;ID164;2019;FR-CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Janković 2019-3;ID165;2019;CNN;Artificial Neural Network;"Conservation and Cataloguing;Theory";Classification;Archaeological Structure Classification;Small Scale Images;Methodological issue
+Janković 2019-2;ID165;2019;"FNN; AODE; FPA; kNN";"Artificial Neural Network;Bayesian Classifier;Ensemble Learning;Nearest Neighbour Classifier";"Conservation and Cataloguing;Historical Archaeology";;;Extraction Features Images;
+Janković 2019-1;ID165;2019;"FNN; AODE; FPA; kNN";"Artificial Neural Network;Bayesian Classifier;Ensemble Learning;Nearest Neighbour Classifier";"Conservation and Cataloguing;Theory";;;Extraction Features Images;
+Liceras et al. 2019;ID166;2019;FNN;Artificial Neural Network;Historical Archaeology;Classification;Text Extraction;Text Data;Mixed results
+Martín-Perea et al. 2020;ID167;2020;"RF; SVM";"Ensemble Learning;Linear Classifier";"Landscape Archaeology;Geoarchaeology";Classification;Archaeological Structure Classification;3D Model;Successful
+Graham et al. 2020;ID168;2020;CNN;Artificial Neural Network;"Conservation and Cataloguing;Classification (of material) and Typology;Archaeobotany";Classification;Artefact Classification;Small Scale Images;Mixed results
+Sun et al. 2020;ID169;2020;"AdaBoost; RF; kNN; SVM";"Ensemble Learning;Ensemble Learning;Nearest Neighbour Classifier;Linear Classifier";"Classification (of material) and Typology;Geoarchaeology";Classification;Sourcing;Spectra;Successful
+Lopez-Garcia et al. 2020-1;ID170;2020;DBS;Unsupervised Learning and Clustering;"Classification (of material) and Typology;Geoarchaeology";Clustering;Sourcing;Spectra;Successful
+Lopez-Garcia et al. 2020-2;ID170;2020;CluPA;Unsupervised Learning and Clustering;"Classification (of material) and Typology;Geoarchaeology";Regression;Data Quality Improvement;Spectra;Successful
+Verschoof-van der Vaart et al. 2020;ID171;2020;"FR-CNN; BAgg";"Artificial Neural Network;Ensemble Learning";Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Mixed results
+Janzen et al. 2020;ID172;2020;RF;Ensemble Learning;"Geoarchaeology;Zooarchaeology;Archaeobotany;Bioarchaeology (Biological Anthropology)";Regression;Environmental Reconstruction;Remote Sensing Images;Successful
+González-Molina et al. 2020;ID173;2020;"SVM; kNN; RF; NB; DT";"Linear Classifier;Nearest Neighbour Classifier;Ensemble Learning;Bayesian Classifier;Decision Trees and Rule Induction";"Classification (of material) and Typology;Experimental Archaeology";Classification;Artefact Classification;Artefact Measurements;Methodological issue
+Orengo et al. 2020;ID174;2020;RF;Ensemble Learning;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Kogou et al. 2020;ID175;2020;SOM;Unsupervised Learning and Clustering;Conservation and Cataloguing;Clustering;Architectural Element Classification;Small Scale Images;Unsuccessful
+Febriawan 2020-2;ID176;2020;SVM;Linear Classifier;"Surveying (and Site Prospection);Archaeological Excavation";Classification;Automatic Structure Detection;Multilayer;Mixed results
+Febriawan 2020-1;ID176;2020;k-MC;N/A;;;;Multilayer (Backscatter imaging);
+Resler et al. 2021;ID177;2021;CNN;Artificial Neural Network;"Classification (of material) and Typology;Cognitive Archaeology";Classification;Artefact Classification;Artefact Images;Successful
+Küçükdemirci et al. 2021;ID178;2021;;;;;;;
+Barberena et al. 2021;ID179;2021;RF;Ensemble Learning;"Landscape Archaeology;Geoarchaeology";Regression;Environmental Reconstruction;Remote Sensing Images;Successful
+Bataille et al. 2021;ID180;2021;RF;Ensemble Learning;"Landscape Archaeology;Geoarchaeology";Regression;Environmental Reconstruction;Remote Sensing Images;Successful
+Friggens et al. 2021;ID181;2021;RF;Ensemble Learning;Landscape Archaeology;Regression;Archaeological Predictive Model;Remote Sensing Images;Successful
+Landa et al. 2021;ID182;2021;ICP;Unsupervised Learning and Clustering;"Conservation and Cataloguing;Archaeobotany";Clustering;Data Quality Improvement;3D Model;Successful
+El-Hajj 2011;ID183;2021;"RF; AdaBoost; SMOTEENN; SMOTEBoost";"Ensemble Learning;Ensemble Learning;Ensemble Learning;Ensemble Learning";"Surveying (and Site Prospection);Conservation and Cataloguing";Regression;Archaeological Predictive Model;Remote Sensing Images;Mixed results
+Muzzall 2021;ID184;2021;"DT; RF; GB; SP; dSL";"Decision Trees and Rule Induction;Ensemble Learning;Ensemble Learning;Ensemble Learning;Ensemble Learning";"Classification (of material) and Typology;Bioarchaeology (Biological Anthropology)";Classification;Artefact Classification;Artefact Measurements;Successful
+La Russa and Santagati 2021;ID185;2021;;;;;;Multilayer;
+Guyot et al. 2021;ID186;2021;MR-CNN;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Castiello and Tonini 2021;ID187;2021;RF;Ensemble Learning;Surveying (and Site Prospection);Regression;Archaeological Predictive Model;Remote Sensing Images;Successful
+Fernée and Trimmis 2022;ID188;2022;"HC; k-MED; k-MC";"Unsupervised Learning and Clustering;N/A;N/A";;;;;
+Jalandoni et al. 2022;ID189;2022;"VGG; ResNet; INC; CNN";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network";"Conservation and Cataloguing;Cognitive Archaeology";Classification;Artefact Classification;Small Scale Images;Successful
+Trotter et al. 2022;ID190;2022;U-Net;Artificial Neural Network;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Successful
+Payntar 2022;ID191;2022;ResNet;Artificial Neural Network;"Archaeological Excavation;Conservation and Cataloguing";Classification;Architectural Element Classification;Small Scale Images;Successful
+Murray et al. 2022;ID192;2022;kNN;Nearest Neighbour Classifier;"Geoarchaeology;Experimental Archaeology";Classification;Artefact Classification;Spectra;Mixed results
+McPherron et al. 2022;ID193;2022;;;;;;;
+Masini et al. 2022;ID194;2022;ISODATA;Unsupervised Learning and Clustering;Surveying (and Site Prospection);Classification;Automatic Structure Detection;Remote Sensing Images;Not defined
+Pavan Kumar et al. 2022-1;ID195;2022;AleNet;Artificial Neural Network;Conservation and Cataloguing;Classification;Architectural Element Classification;Small Scale Images;Successful
+Pavan Kumar et al. 2022-2;ID195;2022;SVM;Linear Classifier;Conservation and Cataloguing;Classification;Architectural Element Classification;Small Scale Images;Methodological issue
+Combes et al. 2022;ID196;2022;;;;;;;
+Fisher et al. 2022;ID197;2022;"RN; YOLO; SSD; FR-CNN; MR-CNN";"Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network;Artificial Neural Network";"Surveying (and Site Prospection);Conservation and Cataloguing";Classification;Automatic Structure Detection;Remote Sensing Images;Not defined
+Pepe et al. 2022;ID198;2022;RF;Ensemble Learning;Conservation and Cataloguing;Classification;Architectural Element Classification;3D Model;Successful
