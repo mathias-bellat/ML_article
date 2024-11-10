@@ -2,4 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.ML_archaeology_review.Rproj
+.Rproj
+.Rprofile
