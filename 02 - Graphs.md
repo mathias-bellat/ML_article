@@ -230,7 +230,7 @@ plot <- ggplot(subset(df1, Freq != 0), aes(x = year, y = Freq))+
 plot 
 ```
 
-![](02---Graphs_files/figure-gfm/models%20year%20of%20publication-1.png)<!-- -->
+![](Graphs_images/figure-gfm/models%20year%20of%20publication-1.png)<!-- -->
 
 ``` r
 # Export the plot  
@@ -271,7 +271,7 @@ plot <- ggplot() +
 plot 
 ```
 
-![](02---Graphs_files/figure-gfm/world-1.png)<!-- -->
+![](Graphs_images/figure-gfm/world-1.png)<!-- -->
 
 ``` r
 # Export the plot  
@@ -428,7 +428,7 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/categories%20per%20years-1.png)<!-- -->
+![](Graphs_images/figure-gfm/categories%20per%20years-1.png)<!-- -->
 
 ``` r
 # Export plot
@@ -485,7 +485,7 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = architecture)) +
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/architecture%20per%20years-1.png)<!-- -->
+![](Graphs_images/figure-gfm/architecture%20per%20years-1.png)<!-- -->
 
 ``` r
 # Export plot
@@ -544,7 +544,7 @@ plot <- ggplot(input, aes(x = Var1, y = Freq)) +
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/input%20info-1.png)<!-- -->
+![](Graphs_images/figure-gfm/input%20info-1.png)<!-- -->
 
 ``` r
 # Export plot
@@ -588,7 +588,7 @@ plot <- ggplot(results, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=Var1)) +
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/result%20info-1.png)<!-- -->
+![](Graphs_images/figure-gfm/result%20info-1.png)<!-- -->
 
 ``` r
 # Export plot
@@ -695,7 +695,7 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/alluvial%20diagram-1.png)<!-- -->
+![](Graphs_images/figure-gfm/alluvial%20diagram-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_09.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
@@ -782,7 +782,7 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/second%20alluvial%20diagram-1.png)<!-- -->
+![](Graphs_images/figure-gfm/second%20alluvial%20diagram-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_10.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
@@ -835,7 +835,7 @@ plot <- ggplot(data = frequency,
 plot
 ```
 
-![](02---Graphs_files/figure-gfm/third%20alluvial%20diagram-1.png)<!-- -->
+![](Graphs_images/figure-gfm/third%20alluvial%20diagram-1.png)<!-- -->
 
 ``` r
 ggsave("./Export/Graph/Figure_11.png", plot = plot, width = 12, height = 10, units = "in", dpi = 600)
