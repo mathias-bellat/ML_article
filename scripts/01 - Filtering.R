@@ -24,7 +24,7 @@ pacman::p_load(dplyr, tm, tidyr, tibble, stringr) # Specify required packages an
 # 01 Convert PDF ---------------------------------------------------------------
 # 01.1 Select the path and the files
 path  <- "./Data/pdf_full" #Select the location of PDFs files
-files <- list.files(path = "./Data/pdf_full/", pattern = "pdf")  #Make a vector of PDFs in the folder 
+files <- list.files(path = "./Data/pdf_full/", pattern = "pdf")  #Make a vector of PDFs in the folder files not included
 
 xpdf <- "C:/Program Files/xpdf-tools-win-4.05/bin64/pdftotext.exe"  #Path for XPDF tool accessible at (https://www.xpdfreader.com/download.html)
 
@@ -40,7 +40,7 @@ rm(list=ls())
 # 02 Prepare the txt files ---------------------------------------------------------------
 # 02.1 Import the data under Corpus file
 corpus <- VCorpus(DirSource(directory = "./Data/txt_full/",
-                            pattern = ".txt"))  #Corpus from the package tm
+                            pattern = ".txt"))  #Corpus from the package files not included
 
 # 02.2 Clean the elements
 df <- corpus
@@ -172,7 +172,6 @@ doi <- rbind(doi_final, doi_final2, doi_final3) #merge the selections without ab
 doi <- doi [,c(1:2,4,7)]
 colnames(doi) <- names
 
-
 #Not_treated data have to analyzed again to see if "abstract" or "introduction" word are not embedded with others which can make the greplx function inefficient
 #Once check and modified if necessary (remove the reference part manually) you would have to upload again later in the steps.
 not_treated <- rbind(no_resume, no_resume2 , no_resume3)
@@ -194,12 +193,11 @@ save(list = c("clean", "corpus", "final_data", "not_treated"), file = "./Export/
 
 rm(list=ls())
 
-
 # 04 First filter ---------------------------------------------------------------
 load("./Export/pre_process/Filtered_references.RData")
 
 # 04.1 Import and clean the metadata (From the export RIS file in Zotero)
-Metadata <- read.csv("./Data/Metadata.csv", sep =";", na.strings = "NA")
+Metadata <- read.csv("./Data/Metadata.csv", sep =",", na.strings = "NA") #File not included in the data set
 Metadata$File.Attachments[Metadata$File.Attachments == ""] <-NA
 Metadata <- Metadata %>% drop_na(File.Attachments) #Remove the ones without Pdfs
 
@@ -209,7 +207,7 @@ Metadata <- Metadata %>% drop_na(File.Attachments) #Remove the ones without Pdfs
 Metadata <- subset(Metadata, Metadata$Item.Type == "journalArticle") #Select only journal articles
 final_data <- subset(final_data, final_data$Id %in% Metadata$File.Attachments)#Select in the data set journal articles
 
-write.table(Metadata, "./Data/Metadata_clean.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
+write.table(Metadata, "./Data/Metadata_clean.csv", sep = ";", row.names = FALSE , col.names = FALSE) #File not included in the data set
 
 
 # 04.3 Function for filtering the data
