@@ -1,0 +1,4 @@
+"HORR_2011.txt"
+"Azkarate et al. - 2018 - Cluster analysis a first step in quantitative tec.txt"
+"Righetti_2020.txt"
+"Pankowská - 2022 - A taphonomic approach to Corded Ware culture mortu.txt"

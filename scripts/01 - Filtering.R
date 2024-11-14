@@ -19,7 +19,7 @@ rm(list = ls(all.names = TRUE))
 # Load packages
 install.packages("pacman")
 library(pacman) #Easier way of loading packages
-pacman::p_load(dplyr, tm, tidyr, tibble, stringr) # Specify required packages and download it if needed
+pacman::p_load(dplyr, tm, tidyr, tibble, stringr, readr) # Specify required packages and download it if needed
 
 # 01 Convert PDF ---------------------------------------------------------------
 # 01.1 Select the path and the files
@@ -196,8 +196,8 @@ rm(list=ls())
 # 04 First filter ---------------------------------------------------------------
 load("./Export/pre_process/Filtered_references.RData")
 
-# 04.1 Import and clean the metadata (From the export RIS file in Zotero)
-Metadata <- read.csv("./Data/Metadata.csv", sep =",", na.strings = "NA") #File not included in the data set
+# 04.1 Import the metadata (Exported from the RIS file in Zotero in CSV format)
+Metadata <- read_delim("./Data/Metadata.csv", delim =";", na = "NA") #File not included in the data set
 Metadata$File.Attachments[Metadata$File.Attachments == ""] <-NA
 Metadata <- Metadata %>% drop_na(File.Attachments) #Remove the ones without Pdfs
 
@@ -207,7 +207,7 @@ Metadata <- Metadata %>% drop_na(File.Attachments) #Remove the ones without Pdfs
 Metadata <- subset(Metadata, Metadata$Item.Type == "journalArticle") #Select only journal articles
 final_data <- subset(final_data, final_data$Id %in% Metadata$File.Attachments)#Select in the data set journal articles
 
-write.table(Metadata, "./Data/Metadata_clean.csv", sep = ";", row.names = FALSE , col.names = FALSE) #File not included in the data set
+write_delim(Metadata, "./Export/pre_process/Metadata_clean.csv", delim = ";")
 
 
 # 04.3 Function for filtering the data
@@ -278,29 +278,26 @@ write.table(no_ML[1], "./Export/first_filter/first_filter_no_ML.csv", sep = "\t"
 write.table(no_combined[1], "./Export/first_filter/first_filter_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 write.table(first_filtered_data[1], "./Export/first_filter/first_filtered.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 
-save(list = c("final_data", "filter_func", "first_filtered_data","no_combined"), file = "./Export/first_filter/First_filter.RData")
+save(list = c("final_data", "filter_func", "first_filtered_data","no_combined", "Metadata"), file = "./Export/first_filter/First_filter.RData")
 rm(list=c(ls()))
 
 # 05 Second filter ---------------------------------------------------------------
 load("./Export/first_filter/First_filter.RData")
 
-# 05.1 Import the metadata file
-Metadata <- read.csv("./Data/Metadata_clean.csv", sep="\t", na.strings = "NA", header = FALSE)
+# 05.1 Filter the metadata
+Metadata_first_filter <- subset(Metadata, Metadata$File.Attachments %in% first_filtered_data$Id)  #Export the metadata from the first filter
+write_delim(Metadata_first_filter, "./Export/first_filter/Metadata_first_filter.csv", delim = ";")
 
-# 05.2 Filter the metadata
-Metadata_first_filter <- subset(Metadata, Metadata$V38 %in% first_filtered_data$Id)  #Export the metadata from the first filter
-write.table(Metadata_first_filter, "./Export/first_filter/Metadata_first_filter.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
-
-
-# 05.3 Merge metadata and first filtered ones
-second_filtered_data <- merge(first_filtered_data, Metadata, by.x = "Id", by.y = "V38")
+# 05.2 Merge metadata and first filtered ones
+second_filtered_data <- merge(first_filtered_data, Metadata, by.x = "Id", by.y = "File.Attachments")
 
 #Only select articles with an abstract
-second_filtered_data <- subset(second_filtered_data, is.na(second_filtered_data$V11) == FALSE) 
+second_filtered_data$Abstract.Note[second_filtered_data$Abstract.Note== ""] <-NA
+second_filtered_data <- subset(second_filtered_data, is.na(second_filtered_data$Abstract.Note) == FALSE) 
 
-# 05.4 Filter the abstract
+# 05.3 Filter the abstract
 x <- second_filtered_data
-z <- x$V11
+z <- x$Abstract.Note
 
 #Function filtering the data for the abstract
 abstract_filtered_data <- filter_func(x, z)
@@ -317,7 +314,7 @@ no_combined_abstract <- subset(abstract_filtered_data, abstract_filtered_data$fi
 #subset the article with archeo AND ML keywords
 abstract_filtered_data <- subset(abstract_filtered_data, abstract_filtered_data$filtered == 1)
 
-# 05.5 Export the results
+# 05.4 Export the results
 write.table(no_archeo_abstract[1], "./Export/second_filter/Abstract_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 write.table(no_ML_abstract[1], "./Export/second_filter/Abstract_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 write.table(no_combined_abstract[1], "./Export/second_filter/Abstract_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
@@ -327,10 +324,9 @@ save(list = c("no_archeo_abstract", "filter_func",  "no_combined_abstract", "no_
 
 rm(list=c("no_archeo_abstract", "no_combined_abstract", "no_ML_abstract"))
 
-# 05.6 Filter the title
+# 05.5 Filter the title
 x <- second_filtered_data
-x$V5 <- na.omit(x$V5)
-z <- x$V5
+z <- x$Title
 
 #Function filtering the data
 title_filtered_data <- filter_func(x, z)
@@ -347,7 +343,7 @@ no_combined_title <- subset(title_filtered_data, title_filtered_data$filtered ==
 #subset the article with archeo AND ML keywords
 title_filtered_data <- subset(title_filtered_data, title_filtered_data$filtered == 1)
 
-# 05.7 Export the results
+# 05.6 Export the results
 write.table(no_archeo_title[1], "./Export/second_filter/Title_filtered_no_archeo.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 write.table(no_ML_title[1], "./Export/second_filter/Title_filtered_no_ML.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
 write.table(no_combined_title[1], "./Export/second_filter/Title_filtered_no_combined.csv", sep = "\t", row.names = FALSE , col.names = FALSE)
@@ -356,18 +352,15 @@ save(list = c("no_archeo_title", "no_ML_title", "no_combined_title", "title_filt
 
 rm(list=c("no_archeo_title", "no_ML_title", "no_combined_title","x","z"))
 
-
-# 05.8 Combine the title and abstract filters
+# 05.7 Combine the title and abstract filters
 second_filtered_data <- rbind(title_filtered_data, abstract_filtered_data)
 second_filtered_data <- second_filtered_data[c(1:5)]
 second_filtered_data <- distinct(second_filtered_data) #Remove duplicates
 
 write.table(second_filtered_data[1], "./Export/second_filter/second_filtered.txt", sep = ";", row.names = FALSE , col.names = FALSE)
 
-# 05.9 Import the metadata
-Metadata <- read.csv("./Data/Metadata_clean.csv", sep="\t", na.strings = "Na", header = FALSE)
+# 05.8 Export the metadata with the second filter
+Metadata_second_filter <- subset(Metadata, Metadata$File.Attachments %in% second_filtered_data$Id)  #Export the metadata from the first filter
+write_delim(Metadata_second_filter, "./Export/second_filter/Metadata_second_filter.csv", delim = ";")
 
-
-# 05.10 Export the metadata with the second filter
-Metadata_second_filter <- merge(Metadata, second_filtered_data[1:2], by.x = "V38", by.y = "Id", all = FALSE)
-write.table(Metadata_second_filter, "./Export/second_filter/Metadata_second_filter.txt", sep = ";", row.names = FALSE , col.names = FALSE)
+save(list = c("second_filtered_data", "Metadata_second_filter"), file = "./Export/second_filter/Final_data_automatic_process.RData")
