@@ -14,9 +14,6 @@
 # Folder check
 getwd()
 
-# Set folder direction
-setwd(dir="G:/OneDrive/Ecole/Articles/Article_ML/R_text_analysis/")
-
 # Clean up workspace
 rm(list = ls(all.names = TRUE))
 
@@ -241,7 +238,7 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = category)) +
   geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
   geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
   scale_fill_manual(values = color) + # Apply the custom color palette
-  labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
+  labs(x = "Year", y = paste0("Number of observations (n =", sum(freq_df$Freq),")"), fill = "Archaeological categories") +
   coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
   theme_bw()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
@@ -293,7 +290,7 @@ plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = architecture)) +
   geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
   geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
   scale_fill_manual(values = color) + # Apply the custom color palette
-  labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
+  labs(x = "Year", y = paste0("Number of observations (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
   coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
   theme_bw()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
@@ -336,7 +333,7 @@ color <- c('#9F0162', '#009F81', '#FF5AAF', '#008DF9', '#FF6E3A', 'darkgray')
 # Barplot of the input
 plot <- ggplot(input, aes(x = Var1, y = Freq)) +
   geom_bar(stat = "identity", fill = color) +
-  labs(x = "Input categories", y = paste0("Number of studies (n =", sum(input$Freq),")")) +
+  labs(x = "Input categories", y = paste0("Number of observations (n =", sum(input$Freq),")")) +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 15))+
   theme_classic() +
  theme(axis.ticks.x = element_blank())
