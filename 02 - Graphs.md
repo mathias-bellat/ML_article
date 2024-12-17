@@ -107,8 +107,8 @@ Observation table
 # 01.3 Remove non reviewed papers ##############################################
 
 # Reviewed and not reviewed papers, one papers might have several studies
-not_review <- subset(obs, is.na(obs$Evaluation == TRUE) | obs$Evaluation  == "Theory")
-review <- subset(obs, obs$Evaluation != "NA" & obs$Evaluation != "Theory")
+not_review <- subset(obs, obs$Included!= "Yes")
+review <- subset(obs, obs$Included == "Yes")
 
 # Merge with metadata
 merge <- merge(info, not_review, by = "ID")
@@ -351,7 +351,7 @@ head(journals)
 # 02.5 Open access articles ####################################################
 
 # Number of papers
-summary(as.factor(metadata$`Open Access`))
+summary(as.factor(metadata$`Open-access`))
 ```
 
     ##  No Yes 
@@ -359,15 +359,15 @@ summary(as.factor(metadata$`Open Access`))
 
 ``` r
 # Ratio in purcent
-(sum(metadata$`Open Access` == "Yes")/nrow(metadata))*100
+(sum(metadata$`Open-access` == "Yes")/nrow(metadata))*100
 ```
 
     ## [1] 70.14925
 
 ``` r
 # 02.6 Number of articles for each subfield of archaeology #####################
-cat <- review[,c(3,6)]
-cat <- cat %>% add_column(pest_matrix = cat$Field %>% str_split(';', simplify = T))
+cat <- review[,c(3,7)]
+cat <- cat %>% add_column(pest_matrix = cat$Subfield %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat <- cbind(cat[,c(1:2)], cat_full)
 
@@ -395,10 +395,10 @@ hist$V1[hist$V1 =="NA"] <- NA
 hist <- na.omit(hist)
 
 # Convert as number date
-hist$Date <- as.numeric(hist$Date)
+hist$Year <- as.numeric(hist$Year)
 
 # Create the frenquence table
-freq_table <- table(hist$Date, hist$V1)
+freq_table <- table(hist$Year, hist$V1)
 freq_df <- as.data.frame(freq_table)
 colnames(freq_df) <- c("year", "category", "Freq")
 
@@ -437,27 +437,27 @@ ggsave("./Export/Graph/Figure_05.pdf", plot = plot, width = 15, height = 10, uni
 ```
 
 ``` r
-# 02.7 Number of articles for each architectures of models #####################
-cat <- review[,c(3,5)]
-cat <- cat %>% add_column(pest_matrix = cat$Architecture %>% str_split(';', simplify = T))
+# 02.7 Number of articles for each families of models #####################
+cat <- review[,c(3,6)]
+cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat <- cbind(cat[,c(1:2)], cat_full)
 
 # Split the column to have every values as a frequency table
-archi <- separate(cat,3,8)
-archi <- archi[c(nrow(cat)+1:nrow(archi)),c(1,3)]
-archi$V1[archi$V1 ==""] <- NA
-archi$V1[archi$V1 =="N/A"] <- NA
+family <- separate(cat,3,8)
+family <- family[c(nrow(cat)+1:nrow(family)),c(1,3)]
+family$V1[family$V1 ==""] <- NA
+family$V1[family$V1 =="N/A"] <- NA
 
-archi <- na.omit(archi)
+family <- na.omit(family)
 
 # Convert as number date
-archi$Date <- as.numeric(archi$Date)
+family$Year <- as.numeric(family$Year)
 
 # Create the frenquence table
-freq_table <- table(archi$Date, archi$V1)
+freq_table <- table(family$Year, family$V1)
 freq_df <- as.data.frame(freq_table)
-colnames(freq_df) <- c("year", "architecture", "Freq")
+colnames(freq_df) <- c("year", "family", "Freq")
 
 # Remove absence of data
 freq_df <- freq_df[freq_df$Freq > 0,]
@@ -466,17 +466,17 @@ freq_df <- freq_df[freq_df$Freq > 0,]
 freq_df$year <- as.numeric(as.character(freq_df$year))
 
 # Convert the categories from factors to characters
-freq_df$category <- as.character(freq_df$architecture)
+freq_df$category <- as.character(freq_df$family)
 
 # Blindfold colors
 color <- c('#9F0162', '#009F81', '#FF5AAF', '#00FCCF', '#8400CD', '#008DF9', '#00C2F9', '#FFB2FD', '#FF6E3A')
 
 # Create the plot
-plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = architecture)) +
+plot <- ggplot(freq_df, aes(x=year, y=Freq, fill = family)) +
   geom_bar(stat = "identity", colour="white", width= 0.9, cex = 0.1) +
   geom_text(aes(x=year, y = Freq, label = Freq), vjust = -0.5, col = "white")+
   scale_fill_manual(values = color) + # Apply the custom color palette
-  labs(x = "Year", y = paste0("Number of studies (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
+  labs(x = "Year", y = paste0("Number of observations (n =", sum(freq_df$Freq),")"), fill = "Architectures categories") +
   coord_cartesian(xlim =c(1997, 2022), ylim = c(0, 75)) +
   theme_bw()+
   theme(legend.position="bottom", legend.box="vertical", legend.margin=margin()) 
@@ -495,8 +495,8 @@ ggsave("./Export/Graph/Figure_06.pdf", plot = plot, width = 15, height = 10, uni
 
 ``` r
 # 02.8 Number of articles for each type of input data ##########################
-cat <- review[,c(3,9)]
-cat <- cat %>% add_column(pest_matrix = review$Input %>% str_split(';', simplify = T))
+cat <- review[,c(3,8)]
+cat <- cat %>% add_column(pest_matrix = review$`Input data` %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat <- cbind(cat[,c(1:2)], cat_full)
 
@@ -617,8 +617,8 @@ separate <- function(df, A, B) {
 # 03.2 Archaeological categories concatenate ###################################
 
 # Split the categories column by semicolon
-cat <- review[,c(7:8,6)]
-cat <- cat %>% add_column(pest_matrix = cat$Field %>% str_split(';', simplify = T))
+cat <- review[,c(10:11,7)]
+cat <- cat %>% add_column(pest_matrix = cat$Subfield %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat_full <- cbind(cat[,c(1,2)], cat_full)
 
@@ -703,11 +703,11 @@ ggsave("./Export/Graph/Figure_09.pdf", plot = plot, width = 12, height = 10, uni
 ```
 
 ``` r
-# 04 Architectures categories alluvial diagram ---------------------------------
-# 04.1 Architectures categories concatenate ####################################
+# 04 Families categories alluvial diagram ---------------------------------
+# 04.1 Families categories concatenate ####################################
 # Split the categories column by semicolon
-cat <- review[,c(7:8,5)]
-cat <- cat %>% add_column(pest_matrix = cat$Architecture %>% str_split(';', simplify = T))
+cat <- review[,c(10:11,6)]
+cat <- cat %>% add_column(pest_matrix = cat$Family %>% str_split(';', simplify = T))
 cat_full <- as.data.frame(cat$pest_matrix)
 cat_full <- cbind(cat[,c(1,2)], cat_full)
 
@@ -793,7 +793,7 @@ ggsave("./Export/Graph/Figure_10.pdf", plot = plot, width = 12, height = 10, uni
 # 05 Results categories alluvial diagram ---------------------------------------
 
 # 05.1 Remove under represented tasks ##########################################
-final <- review[,c(7,8,10)]
+final <- review[,c(10:12)]
 frequency_table <- table(final$Task)
 frequency_df <- as.data.frame(frequency_table)
 
